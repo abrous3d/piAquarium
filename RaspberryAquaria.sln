@@ -1,0 +1,23 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RaspberryAquaria", "RaspberryAquaria\RaspberryAquaria.vcproj", "{783E9272-F50B-48B4-9AEE-0E9B80BFC50F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		NewLinuxConfiguration|Win32 = NewLinuxConfiguration|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{783E9272-F50B-48B4-9AEE-0E9B80BFC50F}.Debug|Win32.ActiveCfg = Debug|Win32
+		{783E9272-F50B-48B4-9AEE-0E9B80BFC50F}.Debug|Win32.Build.0 = Debug|Win32
+		{783E9272-F50B-48B4-9AEE-0E9B80BFC50F}.NewLinuxConfiguration|Win32.ActiveCfg = NewLinuxConfiguration|Win32
+		{783E9272-F50B-48B4-9AEE-0E9B80BFC50F}.NewLinuxConfiguration|Win32.Build.0 = NewLinuxConfiguration|Win32
+		{783E9272-F50B-48B4-9AEE-0E9B80BFC50F}.Release|Win32.ActiveCfg = Release|Win32
+		{783E9272-F50B-48B4-9AEE-0E9B80BFC50F}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
