@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="windows-1253"?>
+<VisualStudioProject
+	ProjectType="Visual C++"
+	Version="9,00"
+	Name="RaspberryAquaria"
+	ProjectGUID="{783E9272-F50B-48B4-9AEE-0E9B80BFC50F}"
+	RootNamespace="RaspberryAquaria"
+	TargetFrameworkVersion="196613"
+	>
+	<Platforms>
+		<Platform
+			Name="Win32"
+		/>
+	</Platforms>
+	<ToolFiles>
+	</ToolFiles>
+	<Configurations>
+		<Configuration
+			Name="Debug|Win32"
+			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
+			IntermediateDirectory="$(ConfigurationName)"
+			ConfigurationType="0"
+			>
+			<Tool
+				Name="VCNMakeTool"
+				BuildCommandLine="&quot;$(VISUALGDB_DIR)\VisualGDB.exe&quot; /build &quot;$(ProjectPath)&quot; &quot;/solution:$(SolutionPath)&quot; &quot;/config:$(ConfigurationName)&quot; &quot;/platform:$(PlatformName)&quot;"
+				ReBuildCommandLine="&quot;$(VISUALGDB_DIR)\VisualGDB.exe&quot; /rebuild &quot;$(ProjectPath)&quot; &quot;/solution:$(SolutionPath)&quot; &quot;/config:$(ConfigurationName)&quot; &quot;/platform:$(PlatformName)&quot;"
+				CleanCommandLine="&quot;$(VISUALGDB_DIR)\VisualGDB.exe&quot; /clean &quot;$(ProjectPath)&quot; &quot;/solution:$(SolutionPath)&quot; &quot;/config:$(ConfigurationName)&quot; &quot;/platform:$(PlatformName)&quot;"
+				Output="$(ProjectDir)RaspberryAquaria-Debug.vgdbsettings"
+				PreprocessorDefinitions="__VisualGDB_CFG_Debug"
+				IncludeSearchPath="C:\SysGCC\raspberry\arm-linux-gnueabihf\sysroot\usr\local\include;c:\sysgcc\raspberry\arm-linux-gnueabihf\include\c++\4.6;c:\sysgcc\raspberry\arm-linux-gnueabihf\include\c++\4.6\arm-linux-gnueabihf;c:\sysgcc\raspberry\arm-linux-gnueabihf\include\c++\4.6\backward;c:\sysgcc\raspberry\lib\gcc\arm-linux-gnueabihf\4.6\include;c:\sysgcc\raspberry\lib\gcc\arm-linux-gnueabihf\4.6\include-fixed;c:\sysgcc\raspberry\arm-linux-gnueabihf\include;c:\sysgcc\raspberry\arm-linux-gnueabihf\sysroot\usr\include\arm-linux-gnueabihf;c:\sysgcc\raspberry\arm-linux-gnueabihf\sysroot\usr\include"
+				ForcedIncludes="$(ProjectDir)\gcc_Debug.h;$(VISUALGDB_DIR)\gcc_compat.h"
+				AssemblySearchPath=""
+				ForcedUsingAssemblies=""
+				CompileAsManaged=""
+			/>
+		</Configuration>
+		<Configuration
+			Name="Release|Win32"
+			ConfigurationType="0"
+			>
+			<Tool
+				Name="VCNMakeTool"
+				BuildCommandLine="&quot;$(VISUALGDB_DIR)\VisualGDB.exe&quot; /build &quot;$(ProjectPath)&quot; &quot;/solution:$(SolutionPath)&quot; &quot;/config:$(ConfigurationName)&quot; &quot;/platform:$(PlatformName)&quot;"
+				ReBuildCommandLine="&quot;$(VISUALGDB_DIR)\VisualGDB.exe&quot; /rebuild &quot;$(ProjectPath)&quot; &quot;/solution:$(SolutionPath)&quot; &quot;/config:$(ConfigurationName)&quot; &quot;/platform:$(PlatformName)&quot;"
+				CleanCommandLine="&quot;$(VISUALGDB_DIR)\VisualGDB.exe&quot; /clean &quot;$(ProjectPath)&quot; &quot;/solution:$(SolutionPath)&quot; &quot;/config:$(ConfigurationName)&quot; &quot;/platform:$(PlatformName)&quot;"
+				Output="$(ProjectDir)RaspberryAquaria-Release.vgdbsettings"
+				PreprocessorDefinitions="__VisualGDB_CFG_Release"
+				IncludeSearchPath="c:\sysgcc\raspberry\arm-linux-gnueabihf\include\c++\4.6;c:\sysgcc\raspberry\arm-linux-gnueabihf\include\c++\4.6\arm-linux-gnueabihf;c:\sysgcc\raspberry\arm-linux-gnueabihf\include\c++\4.6\backward;c:\sysgcc\raspberry\lib\gcc\arm-linux-gnueabihf\4.6\include;c:\sysgcc\raspberry\lib\gcc\arm-linux-gnueabihf\4.6\include-fixed;c:\sysgcc\raspberry\arm-linux-gnueabihf\include;c:\sysgcc\raspberry\arm-linux-gnueabihf\sysroot\usr\include\arm-linux-gnueabihf;c:\sysgcc\raspberry\arm-linux-gnueabihf\sysroot\usr\include"
+				ForcedIncludes="$(ProjectDir)\gcc_Release.h;$(VISUALGDB_DIR)\gcc_compat.h"
+				AssemblySearchPath=""
+				ForcedUsingAssemblies=""
+				CompileAsManaged=""
+			/>
+		</Configuration>
+		<Configuration
+			Name="NewLinuxConfiguration|Win32"
+			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
+			IntermediateDirectory="$(ConfigurationName)"
+			ConfigurationType="0"
+			>
+			<Tool
+				Name="VCNMakeTool"
+				BuildCommandLine="&quot;$(VISUALGDB_DIR)\VisualGDB.exe&quot; /build &quot;$(ProjectPath)&quot; &quot;/solution:$(SolutionPath)&quot; &quot;/config:$(ConfigurationName)&quot; &quot;/platform:$(PlatformName)&quot;"
+				ReBuildCommandLine="&quot;$(VISUALGDB_DIR)\VisualGDB.exe&quot; /rebuild &quot;$(ProjectPath)&quot; &quot;/solution:$(SolutionPath)&quot; &quot;/config:$(ConfigurationName)&quot; &quot;/platform:$(PlatformName)&quot;"
+				CleanCommandLine="&quot;$(VISUALGDB_DIR)\VisualGDB.exe&quot; /clean &quot;$(ProjectPath)&quot; &quot;/solution:$(SolutionPath)&quot; &quot;/config:$(ConfigurationName)&quot; &quot;/platform:$(PlatformName)&quot;"
+				Output="$(ProjectDir)RaspberryAquaria-NewLinuxConfiguration.vgdbsettings"
+				PreprocessorDefinitions="__VisualGDB_CFG_NewLinuxConfiguration"
+				IncludeSearchPath="C:\SysGCC\raspberry\arm-linux-gnueabihf\sysroot\usr\local\include;c:\sysgcc\raspberry\arm-linux-gnueabihf\include\c++\4.6;c:\sysgcc\raspberry\arm-linux-gnueabihf\include\c++\4.6\arm-linux-gnueabihf;c:\sysgcc\raspberry\arm-linux-gnueabihf\include\c++\4.6\backward;c:\sysgcc\raspberry\lib\gcc\arm-linux-gnueabihf\4.6\include;c:\sysgcc\raspberry\lib\gcc\arm-linux-gnueabihf\4.6\include-fixed;c:\sysgcc\raspberry\arm-linux-gnueabihf\include;c:\sysgcc\raspberry\arm-linux-gnueabihf\sysroot\usr\include\arm-linux-gnueabihf;c:\sysgcc\raspberry\arm-linux-gnueabihf\sysroot\usr\include"
+				ForcedIncludes="$(ProjectDir)\gcc_NewLinuxConfiguration.h;$(VISUALGDB_DIR)\gcc_compat.h"
+				AssemblySearchPath=""
+				ForcedUsingAssemblies=""
+				CompileAsManaged=""
+			/>
+		</Configuration>
+	</Configurations>
+	<References>
+	</References>
+	<Files>
+		<Filter
+			Name="Source files"
+			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
+			>
+			<File
+				RelativePath=".\AD7785_DRV.c"
+				>
+			</File>
+			<File
+				RelativePath=".\controller.c"
+				>
+			</File>
+			<File
+				RelativePath=".\database.c"
+				>
+			</File>
+			<File
+				RelativePath=".\minIni.c"
+				>
+			</File>
+			<File
+				RelativePath=".\ModeFilter.c"
+				>
+			</File>
+			<File
+				RelativePath=".\MoonPhase.c"
+				>
+			</File>
+			<File
+				RelativePath=".\RaspberryAquaria.c"
+				>
+			</File>
+			<File
+				RelativePath=".\rtd.c"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="Header files"
+			Filter="h;hpp;hxx;hm;inl;inc;xsd"
+			>
+		</Filter>
+		<Filter
+			Name="Resource files"
+			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
+			>
+		</Filter>
+		<Filter
+			Name="Make files"
+			Filter="*.mak"
+			>
+			<File
+				RelativePath=".\debug.mak"
+				>
+			</File>
+			<File
+				RelativePath=".\newlinuxconfiguration.mak"
+				>
+			</File>
+			<File
+				RelativePath=".\release.mak"
+				>
+			</File>
+		</Filter>
+		<File
+			RelativePath=".\Makefile"
+			>
+		</File>
+	</Files>
+	<Globals>
+	</Globals>
+</VisualStudioProject>

@@ -1,0 +1,16 @@
+"piAquarium":[
+    {"Temperature":25.4C},     
+    {"pH":7.6,}, 
+    {"CO2":"ON"},
+    {"FAN":"OFF"},
+    {"RowADCa_1":12345,},
+    {"RowADCa_2":12345,},
+    {"RowADCb_1":99999,},
+    {"RowADCb_2":99999,},
+    {"RowADCb_3":99999,},    
+    {"L1":"ON", "intensity":"0"},
+    {"L2":"OFF", "intensity":"0"},
+    {"L3":"ON", "intensity":"50"},
+    {"L3":"ON", "intensity":"50"}
+      
+]
