@@ -19,16 +19,24 @@ Database path : \\DEEPBLUE\raspberry\var\lib\mysql
 //==============================================================
 git init
 
-git add .															# Adds the files in the local repository and stages them for commit
+git add -A															# Adds the files in the local repository and stages them for commit
 
 git commit -m 'First commit' 										# Commits the tracked changes and prepares them to be pushed to a remote repository
 
-git remote add origin <remote repository URL>						# Sets the new remote
+git remote add origin <remote repository URL from GitHub>			# Sets the new remote
 
 git remote -v														# Verifies the new remote URL
 
-git push origin master												# Pushes the changes in your local repository up to the remote repository you specified as the origin
+git push -u -f origin master										# -u (set as default) -u (force, ovewrite everything in the remote dir)  Pushes the changes in your local repository up to the remote repository you specified as the origin
 
 //==============================================================
 //				Commit changes
 //==============================================================
+git add . 
+git commit -m 'Comment' 
+git push -u origin master 
+//===============================================================
+//			Clone a repo (SVN Checkout)	
+//==============================================================
+git clone https://github.com/abrous3d/piAquarium.git
+
