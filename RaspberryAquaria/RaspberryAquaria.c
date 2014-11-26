@@ -146,7 +146,8 @@ void	TestLoop(void);
 //***************************************************************************
 //					scheduler.ini file 
 //***************************************************************************
-const char inifile[] = "/piAquarium/schedule.ini";
+const char inipath[] = "/piAquarium/schedule/";
+const char inifile[] = "/piAquarium/schedule/schedule.ini";
 //const char inifile[] = "/piAquarium/fastschedule.ini";
 //**************************************************************************************************
 //											Event tables
@@ -189,7 +190,7 @@ WORD	LightsOveride;						// if 1 lights settings will be overriden
 float	LightsScale;						// Scales the total light intensity 
 
 BYTE  DataBaseUpdateDiv;					// Data base update divider
-#define		DATABASEUPDATE			10
+#define		DATABASEUPDATE			10		//	
 //***************************************************************************
 //							I/O MACROS
 //***************************************************************************
@@ -213,7 +214,6 @@ void L2_OFF(void)		{	digitalWrite (SW_L2_PIN, LOW); Outputs.L2IsOn = 0; }
 
 
 #define 		IF_TERMINAL_ON()		if(TermOnFlag == 0xDEAD)
-
 
 //**************************************************************************************************
 //
@@ -280,7 +280,7 @@ IF_TERMINAL_ON()
 	{
 		IF_TERMINAL_ON() printf("inotify_init\r\n");
 	}
-	wd = inotify_add_watch( fd, "/piAquarium/", IN_MODIFY);			//..schedule.ini  FIX me - Why inotify cannot monitor only the .ini file ? 
+	wd = inotify_add_watch( fd, inipath, IN_MODIFY);			///"piAquarium/schedule/" ..schedule.ini  FIX me - Why inotify cannot monitor only the .ini file ? 
 	if (wd == -1)
     {
 		IF_TERMINAL_ON() printf("Inotify :Couldn't add watch n");
