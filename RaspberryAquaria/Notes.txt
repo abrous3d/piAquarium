@@ -35,7 +35,7 @@ git push -u -f origin master										# -u (set as default) -u (force, ovewrite 
 git add . 
 git commit -m 'Comment' 
 git push -u origin master 
-//===============================================================
+//==============================================================
 //			Clone a repo (SVN Checkout)	
 //==============================================================
 git clone https://github.com/abrous3d/piAquarium.git
