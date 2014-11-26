@@ -13,3 +13,22 @@ backup Mysql
 mysqldump -ppiaquarium Aquadb > Aquadb2.sql
 
 Database path : \\DEEPBLUE\raspberry\var\lib\mysql
+
+//==============================================================
+// Git hub upload new project
+//==============================================================
+git init
+
+git add .															# Adds the files in the local repository and stages them for commit
+
+git commit -m 'First commit' 										# Commits the tracked changes and prepares them to be pushed to a remote repository
+
+git remote add origin <remote repository URL>						# Sets the new remote
+
+git remote -v														# Verifies the new remote URL
+
+git push origin master												# Pushes the changes in your local repository up to the remote repository you specified as the origin
+
+//==============================================================
+//				Commit changes
+//==============================================================
