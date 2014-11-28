@@ -40,3 +40,7 @@ git push -u origin master
 //==============================================================
 git clone https://github.com/abrous3d/piAquarium.git
 
+https://airtower.wordpress.com/2010/06/16/catch-sigterm-exit-gracefully/
+
+http://stackoverflow.com/questions/2784500/how-to-send-a-simple-string-between-two-programs-using-pipes
+

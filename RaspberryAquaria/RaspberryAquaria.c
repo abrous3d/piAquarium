@@ -58,6 +58,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <signal.h>
 #include <time.h>
 #include <sys/types.h>
 #include <sys/time.h>
@@ -143,6 +144,7 @@ void 	ADCb_Process(void);
 void	InitRTDcalibrators(void);
 void	InitpHcalibrators(void);
 void	TestLoop(void);
+void	ShutDownPi(void);
 //***************************************************************************
 //					scheduler.ini file 
 //***************************************************************************
@@ -228,8 +230,11 @@ int main(void)
 
 	struct pollfd ufds[1];   
 	char buffer[BUF_LEN];															// used by inotify
-
-    
+	struct sigaction action;														// KILL and TERM signal handling
+    //*********** message FIFO -> server ************ 
+//	int mesf_fd;																	// message fifo handler
+//    char * mesfifo = "/tmp/mesfifo";
+	//***********************************************
 
 IF_TERMINAL_ON()
 	{
@@ -237,6 +242,14 @@ IF_TERMINAL_ON()
 		printf("abrous3D 2014\r\n"); 	
 	}
 
+	//************************************************************
+	//		Handle SIGTERM  signal
+	//************************************************************	
+    memset(&action, 0, sizeof(struct sigaction));
+    action.sa_handler = ShutDownPi;	
+	sigaction(SIGTERM, &action, NULL);	
+	//************************************************************
+	
 //	DbCreate();															// Create new database//
 //	DbTableCreate();
 	
@@ -868,9 +881,10 @@ void PWMinit(PWMx *ch)
 	ch->CurrentPWM_out = 0;	
 	ch->LastPWMval = 0;
 }
-
+//**********************************************************************************
 //**********************************************************************************
 //		Read the .Ini file and initialize all the data arrays
+//**********************************************************************************
 //**********************************************************************************
 void InitSchedulerTables(void)
 {
@@ -1465,5 +1479,12 @@ void ReadEnviromentalSensor(BYTE ch)
 		}
 	}
 }
+//==================================================================================================
+//			SIGTERM handle - close all open files and exit gracefully
+//==================================================================================================
+void	ShutDownPi(void)
+{
+	DbDisconnect();																	// DataBase Close
+	
+}
 //=================================================================================				
-
