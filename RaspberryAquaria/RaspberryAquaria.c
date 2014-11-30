@@ -83,12 +83,12 @@
 //***************************************************************************
 #define sizearray(a)  (sizeof(a) / sizeof((a)[0]))
 //***************************************************************************
-#define		PWM0_PIN		7						// Light PWM channel 0
+#define		PWM0_PIN		1						// Light PWM channel 0
 #define		PWM1_PIN		0						// Light PWM channel 1
 #define		PWM2_PIN		2						// Light PWM channel 2
 
 #define		SW_L0_PIN		3						// Light switch channel 0	
-#define		SW_L1_PIN		1						// Light switch channel 1
+#define		SW_L1_PIN		7						// Light switch channel 1
 #define		SW_L2_PIN		4						// Light switch channel 2
 
 #define		SW_HEAT_PIN		5						// Heater	
@@ -148,9 +148,8 @@ void	ShutDownPi(void);
 //***************************************************************************
 //					scheduler.ini file 
 //***************************************************************************
-const char inipath[] = "/piAquarium/schedule/";
+const char inipath[] = "/piAquarium/schedule/";								// Path of .ini file - used by Inotify
 const char inifile[] = "/piAquarium/schedule/schedule.ini";
-//const char inifile[] = "/piAquarium/fastschedule.ini";
 //**************************************************************************************************
 //											Event tables
 //	col0 = time in seconds since 00:00, col1 = target pwm, col2 = event state (0=pending, 1= taken)
@@ -232,10 +231,11 @@ int main(void)
 	char buffer[BUF_LEN];															// used by inotify
 	struct sigaction action;														// KILL and TERM signal handling
     //*********** message FIFO -> server ************ 
-//	int mesf_fd;																	// message fifo handler
-//    char * mesfifo = "/tmp/mesfifo";
+	int srv_mesf_fd;																// app to Server message fifo handler
+	int app_mesf_fd;																// Server to application message fifo
+    char * ToServMesFifo = "/tmp/srvmesfifo";
+	char * FromServMesFifo = "/tmp/appmesfifo";
 	//***********************************************
-
 IF_TERMINAL_ON()
 	{
 		printf("piAquarium controller \r\n"); 	
@@ -243,20 +243,20 @@ IF_TERMINAL_ON()
 	}
 
 	//************************************************************
-	//		Handle SIGTERM  signal
+	//		Handle SIGTERM  signal 
 	//************************************************************	
     memset(&action, 0, sizeof(struct sigaction));
     action.sa_handler = ShutDownPi;	
 	sigaction(SIGTERM, &action, NULL);	
 	//************************************************************
 	
-//	DbCreate();															// Create new database//
-//	DbTableCreate();
+//	DbCreate();																	// Create new database//
+//	DbTableCreate();															// I have to handle this situation somehow
 	
 	DbConnect();
 	DataBaseUpdateDiv = 0;
 #ifdef 	TERMINAL_OUT
-	TermOnFlag = 0xDEAD;													// Turn Terminal out on by default
+	TermOnFlag = 0xDEAD;														// Turn Terminal out on by default
 #else
 	TermOnFlag = 0;
 #endif	
@@ -328,7 +328,7 @@ ReadIniFile:
 		printf("\033[2J\033[1;1H");												//Clear terminal screen
 	}	
 
-	DataBaseCleanup();
+   // DataBaseCleanup();
    //================= Main controller loop =================== 			
 	for(;;)
 	{
@@ -340,11 +340,11 @@ ReadIniFile:
 		//============================================================================== 		
 		//				 Daily housekeeping 
 		//============================================================================== 		
-		if(xtime->tm_hour == 23 && xtime->tm_min == 59)						// Every day at 23:59
+		if(xtime->tm_hour == 23 && xtime->tm_min == 50)						// Every day at 23:59
 		{
 			newDayFlag = 0;
 		}
-		if(xtime->tm_hour == 0 && xtime->tm_min == 0 && newDayFlag == 0)	// Every day at 00:00	
+		if(xtime->tm_hour == 23 && xtime->tm_min == 59 && newDayFlag == 0)	// Every day at 00:00	
 		{
 			newDayFlag = 1;													// Allow this to happen only once within this minute			
 			DataBaseCleanup();												// cleanup database once every night
@@ -355,6 +355,8 @@ ReadIniFile:
 		{
 			ClockTick = 0;													// it is 00:00																
 		}
+		//============================================================================== 		
+		//			
 		//============================================================================== 		
 		switch(TimeSlice)
 		{
@@ -379,12 +381,11 @@ ReadIniFile:
 				//================================================================================
 				//			Check if schedule.ini has been changed by the user or ui
 				//================================================================================
-//#if 0			
 				
 				i = 0;
 				BYTE iniModifiedFlag = 0;
-
-				ret = poll(ufds, 1, 50);												// timeout of 2ms
+				//************* Poll linux kernel for events **********	
+				ret = poll(ufds, 1, 50);												// timeout of 50ms (is this necessary ?) FIX me
 				if (ret < 0) 
 				{
 					IF_TERMINAL_ON() printf("poll failed: %s\n", strerror(errno));
@@ -407,8 +408,6 @@ ReadIniFile:
 					}					
 				}
 				if(iniModifiedFlag)goto ReadIniFile;	
-
-//#endif				
 			break;
 			
 			case 4:
@@ -830,10 +829,18 @@ DirectWritetoPWM:
 
 	if(ch == &PWMa)
 	{
-		if(Outputs.L0polarity == 1)	softPwmWrite (PWM0_PIN, tmpPWM); 					    // Update PWM L0
-		else						softPwmWrite (PWM0_PIN, (100 - tmpPWM));
 		Outputs.L0intensity = tmpPWM;														
 
+#ifdef PWM_USE_HARDWARE
+		tmpPWM = (tmpPWM * 1024)/100;														// convert to 0-1024 range
+
+		if(Outputs.L0polarity == 1)pwmWrite (PWM0_PIN, tmpPWM) ;							// Update PWM L0
+		else					   pwmWrite (PWM0_PIN, 1024 - tmpPWM) ;
+#else
+		if(Outputs.L0polarity == 1)	softPwmWrite (PWM0_PIN, tmpPWM); 					    // Update PWM L0
+		else						softPwmWrite (PWM0_PIN, (100 - tmpPWM));
+#endif
+		
 		if(tmpPWM == 0) L0_OFF();															// Switch Lights OFF if PWM is 0 
 		else			L0_ON();															// Switch Lights ON if PWM is > 0 
 
@@ -1195,11 +1202,21 @@ void LowLevelInit(void)
 	pinMode (LED_ACT, OUTPUT) ;									// Initialize ACT led	
 	pullUpDnControl (LED_ACT, PUD_UP);
 	digitalWrite (LED_ACT, HIGH) ;
-	
+	//*****************************************
+#ifdef PWM_USE_HARDWARE
+	pullUpDnControl (PWM0_PIN, PUD_UP);
+	pinMode (PWM0_PIN, PWM_OUTPUT) ;
+	pwmSetClock (32) ;
+	pwmSetMode(PWM_MODE_MS);
+
+#else
+	softPwmCreate (PWM0_PIN, 0, 100) ;
+#endif
+
 	pullUpDnControl (PWM0_PIN, PUD_UP);
 	pullUpDnControl (PWM1_PIN, PUD_UP);
 	pullUpDnControl (PWM2_PIN, PUD_UP);
-	softPwmCreate (PWM0_PIN, 0, 100) ;
+
 	softPwmCreate (PWM1_PIN, 0, 100) ;
     softPwmCreate (PWM2_PIN, 0, 100) ;
 	pinMode (SW_L0_PIN, OUTPUT) ;
@@ -1234,8 +1251,9 @@ void LowLevelInit(void)
 	pullUpDnControl (SW_CO2_PIN, PUD_DOWN);
 	digitalWrite (SW_CO2_PIN, LOW) ;
 	Outputs.CO2IsON = 0;	
-
+#ifndef PWM_USE_HARDWARE
 	PWMinit(&PWMa);
+#endif
 	PWMinit(&PWMb);
 	PWMinit(&PWMc);
 }

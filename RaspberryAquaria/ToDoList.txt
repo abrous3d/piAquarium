@@ -1,0 +1,4 @@
+- Add pipe / FIFO to from Web app
+- Add temperature correction parameter
+- Convert PWM L2 channel from soft to hardare pwm to reduce system load and jitter
+- Add moon cycle to channel L3 

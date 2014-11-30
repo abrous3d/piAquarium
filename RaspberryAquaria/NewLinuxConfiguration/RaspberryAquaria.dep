@@ -31,6 +31,15 @@ NewLinuxConfiguration/RaspberryAquaria.o: RaspberryAquaria.c \
  c:\sysgcc\raspberry\bin\../arm-linux-gnueabihf/sysroot/usr/include/alloca.h \
  c:\sysgcc\raspberry\bin\../arm-linux-gnueabihf/sysroot/usr/include/string.h \
  c:\sysgcc\raspberry\bin\../arm-linux-gnueabihf/sysroot/usr/include/xlocale.h \
+ c:\sysgcc\raspberry\bin\../arm-linux-gnueabihf/sysroot/usr/include/signal.h \
+ c:\sysgcc\raspberry\bin\../arm-linux-gnueabihf/sysroot/usr/include/arm-linux-gnueabihf/bits/signum.h \
+ c:\sysgcc\raspberry\bin\../arm-linux-gnueabihf/sysroot/usr/include/arm-linux-gnueabihf/bits/siginfo.h \
+ c:\sysgcc\raspberry\bin\../arm-linux-gnueabihf/sysroot/usr/include/arm-linux-gnueabihf/bits/sigaction.h \
+ c:\sysgcc\raspberry\bin\../arm-linux-gnueabihf/sysroot/usr/include/arm-linux-gnueabihf/bits/sigcontext.h \
+ c:\sysgcc\raspberry\bin\../arm-linux-gnueabihf/sysroot/usr/include/arm-linux-gnueabihf/asm/sigcontext.h \
+ c:\sysgcc\raspberry\bin\../arm-linux-gnueabihf/sysroot/usr/include/arm-linux-gnueabihf/bits/sigstack.h \
+ c:\sysgcc\raspberry\bin\../arm-linux-gnueabihf/sysroot/usr/include/arm-linux-gnueabihf/sys/ucontext.h \
+ c:\sysgcc\raspberry\bin\../arm-linux-gnueabihf/sysroot/usr/include/arm-linux-gnueabihf/bits/sigthread.h \
  c:\sysgcc\raspberry\bin\../arm-linux-gnueabihf/sysroot/usr/include/arm-linux-gnueabihf/sys/time.h \
  c:\sysgcc\raspberry\bin\../arm-linux-gnueabihf/sysroot/usr/include/arm-linux-gnueabihf/sys/stat.h \
  c:\sysgcc\raspberry\bin\../arm-linux-gnueabihf/sysroot/usr/include/arm-linux-gnueabihf/bits/stat.h \

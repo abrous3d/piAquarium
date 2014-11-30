@@ -31,6 +31,8 @@
 #define		USER_TEMP_SET_MIN				18.0								// 
 #define		USER_TEMP_SET_MAX				32.0								// Do not let the control to boil your tank
 #define 	MAX_EVENTS						16									// Maximum allowed events per channel
+
+#define		PWM_USE_HARDWARE				1									// leave this uncomented to use hardware PWM for channel 1 - WARNING channel 1 is used for audio so it may interfere with audio apps
 //================================================================================
 //				Configuration definitions
 //================================================================================
