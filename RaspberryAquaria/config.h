@@ -23,9 +23,9 @@
 //==============================================================================
 //				
 //================================================================================
-#define		USER_TEMP_MIN_HYSTERESIS		0.1									// Min allowable hysteresis
-#define		USER_FAN_MIN_HYSTERESIS			0.1									// minimum allowed fan hysteresis	
-#define		USER_PH_MIN_HYSTERESIS			0.1									
+#define		USER_TEMP_MIN_HYSTERESIS		0.01									// Min allowable hysteresis
+#define		USER_FAN_MIN_HYSTERESIS			0.01									// minimum allowed fan hysteresis	
+#define		USER_PH_MIN_HYSTERESIS			0.01									
 #define		USER_PH_SET_MIN					5.0									// Do not allow user to set values lower than pH 5.0
 #define		USER_PH_SET_MAX					9.0									// Do not allow user to set values Higher than pH 9.0
 #define		USER_TEMP_SET_MIN				18.0								// 

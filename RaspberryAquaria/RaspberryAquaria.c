@@ -1010,7 +1010,7 @@ void InitSchedulerTables(void)
 		Temperature.Set = (int)(tmp * 1000);	
 		
 		tmp = ini_getf("temperature", "HeatHysteresis",2.0, inifile);		
-		if(tmp < USER_TEMP_MIN_HYSTERESIS)Temperature.Hyst = USER_TEMP_MIN_HYSTERESIS;
+		if(tmp < USER_TEMP_MIN_HYSTERESIS)Temperature.Hyst = USER_TEMP_MIN_HYSTERESIS * 1000;
 		else							  Temperature.Hyst = (int)(tmp * 1000);	
 
 		if( ini_getbool("temperature", "AlarmActive", 0, inifile)) 
@@ -1031,7 +1031,7 @@ void InitSchedulerTables(void)
 
 
 		tmp = ini_getf("temperature", "FanHysteresis",2.0, inifile);		
-		if(tmp < USER_FAN_MIN_HYSTERESIS)Fan.Hyst = USER_FAN_MIN_HYSTERESIS;
+		if(tmp < USER_FAN_MIN_HYSTERESIS)Fan.Hyst = USER_FAN_MIN_HYSTERESIS * 1000;
 		else							 Fan.Hyst = (int)(tmp * 1000);			
 		
 	}
@@ -1055,7 +1055,7 @@ void InitSchedulerTables(void)
 		pH.Set = (int)(tmp * 1000);	
 		
 		tmp = ini_getf("pH", "Hysteresis",0.1, inifile);		
-		if(tmp < USER_PH_MIN_HYSTERESIS)pH.Hyst = USER_PH_MIN_HYSTERESIS;
+		if(tmp < USER_PH_MIN_HYSTERESIS)pH.Hyst = USER_PH_MIN_HYSTERESIS * 1000;
 		else							pH.Hyst = (int)(tmp * 1000);			
 
 		if( ini_getbool("pH", "AlarmActive", 0, inifile)) 
