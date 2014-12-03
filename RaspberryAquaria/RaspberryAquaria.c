@@ -55,6 +55,10 @@
 */
 //***************************************************************************
 //***************************************************************************
+#include <sys/select.h>
+#include <stdlib.h>
+#include <fcntl.h>
+#include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -145,6 +149,8 @@ void	InitRTDcalibrators(void);
 void	InitpHcalibrators(void);
 void	TestLoop(void);
 void	ShutDownPi(void);
+void	ExecProccessControl(void);
+void	CheckForAlarms(void);
 //***************************************************************************
 //					scheduler.ini file 
 //***************************************************************************
@@ -225,6 +231,8 @@ int main(void)
 	time_t timer;
 	struct tm * xtime;
 	int fd,wd,i,ret;																// inotify 
+	int npfd_Tsrv,npfd_Fsrv;	
+	
 	int newDayFlag = 0;
 
 	struct pollfd ufds[1];   
@@ -233,8 +241,8 @@ int main(void)
     //*********** message FIFO -> server ************ 
 	int srv_mesf_fd;																// app to Server message fifo handler
 	int app_mesf_fd;																// Server to application message fifo
-    char * ToServMesFifo = "/tmp/srvmesfifo";
-	char * FromServMesFifo = "/tmp/appmesfifo";
+    char *ToServMesFifo = "/tmp/srvmesfifo";
+	char *FromServMesFifo = "/tmp/appmesfifo";
 	//***********************************************
 IF_TERMINAL_ON()
 	{
@@ -249,7 +257,24 @@ IF_TERMINAL_ON()
     action.sa_handler = ShutDownPi;	
 	sigaction(SIGTERM, &action, NULL);	
 	//************************************************************
-	
+	//			Initialize communication FIFO
+	//************************************************************
+#if 0
+
+    //mkfifo(ToServMesFifo, 0666);
+	//mkfifo(FromServMesFifo, 0666);
+
+		system("mkfifo /tmp/PIPE_FRM_SRV");
+        system("mkfifo /tmp/PIPE_TO_SRV");
+        // open file descriptors of named pipes to watch
+        npfd_Tsrv = open("/tmp/PIPE_FRM_SRV", O_RDWR | O_NONBLOCK);
+        if (npfd_Tsrv == -1) {
+            perror("open");
+            return EXIT_FAILURE;
+        }
+#endif
+	//************************************************************
+
 //	DbCreate();																	// Create new database//
 //	DbTableCreate();															// I have to handle this situation somehow
 	
@@ -360,23 +385,24 @@ ReadIniFile:
 		//============================================================================== 		
 		switch(TimeSlice)
 		{
+			//************************************
 			case 0:				
 				EventProcess(A,ClockTick);									// Process lights
 				EventProcess(B,ClockTick);
 				EventProcess(C,ClockTick);	
 								
 			break;
-		
+			//************************************
 			case 1:
 				PWMservice(&PWMa);
 				PWMservice(&PWMb);
 				PWMservice(&PWMc);			
 			break;
-		
+			//************************************
 			case 2:
 				ReadEnviromentalSensor(0);
 			break;
-			
+			//************************************
 			case 3:
 				//================================================================================
 				//			Check if schedule.ini has been changed by the user or ui
@@ -409,26 +435,28 @@ ReadIniFile:
 				}
 				if(iniModifiedFlag)goto ReadIniFile;	
 			break;
-			
+			//************************************
 			case 4:
 				BlinkActLed();
 			break;
-			
+			//************************************
 			case 5:
 				EventProcess(A,ClockTick);									// Process lights
 				EventProcess(B,ClockTick);
 				EventProcess(C,ClockTick);	
 			break;
-			
+			//************************************
 			case 6:
 				PWMservice(&PWMa);
 				PWMservice(&PWMb);
 				PWMservice(&PWMc);						
 			break;
-			
+			//************************************
 			case 7:
+				ExecProccessControl();										// Execute pH,Temp & fan controllers
+				CheckForAlarms();											// Compare measurements against alarm limits
 			break;
-			
+			//************************************
 			case 8:			
 				if(DataBaseUpdateDiv++ > DATABASEUPDATE)
 				{
@@ -436,16 +464,17 @@ ReadIniFile:
 					DbWriteData();
 				}
 			break;
-			
+			//************************************
 			case 9:
 				BlinkActLed();
 				xTermMon();				
 			break;
-			
+			//************************************
 			default:
 				TimeSlice = 0;
 
-		}		
+		} // End of switch(TimeSlice)
+
 		if(TimeSlice++ > MAX_TIME_SLICES - 1)TimeSlice = 0;
 		// ============== End of TimeSlice Switch ===================		
 		//===========================================================
@@ -481,83 +510,7 @@ ReadIniFile:
 			Real.TankTemp = roundf( T_rtd(Rfl) * 100) / 100 ;						   				    // Linearize pt100									
 			ADCa.SigB = 0;
 		}		
-//=================================================================================				
-//						  Process controllers
-//=================================================================================				
-		//============== Temperature Controller =====================
-		if(ADCa.ADCact == 1 && Temperature.ControlActive == 1)
-		{
-			if(Comparator(&Temp_Controller,Real.TankTemp * 1000)) HEATER_OFF();				// Compare Real tank temperature with tSet High & tSet Low
-			else												  HEATER_ON();
-		}
-		else
-		{
-			HEATER_OFF();
-		}
-		//============== pH Controller =====================
-		if(ADCa.ADCact == 1 && pH.ControlActive == 1)
-		{
-			if(Comparator(&pH_Controller,Real.TankpH * 1000))	  CO2_ON();
-			else												  CO2_OFF();	
-		}
-		else
-		{
-			CO2_OFF();
-		}
-		//============== Fan Controller =====================
-		if(ADCa.ADCact == 1 && Fan.ControlActive == 1)
-		{
-			if(Comparator(&Fan_Controller,Real.TankTemp * 1000))  FAN_ON();
-			else												  FAN_OFF();
-		}	
-		else
-		{
-			FAN_OFF();	
-		}
-//=================================================================================				
-//						  Alarm controllers
-//=================================================================================				
-		BYTE TmpComp;
-		//=================== Temperature alarm ==============
-		if(ADCa.ADCact == 1 && Temperature.AlarmActive == 1)
-		{
-			TmpComp = Comparator3S(&Temp_Alarm,Real.TankTemp * 1000);
-			if(TmpComp == 0)														// In range
-			{
-				alrm.TempHigh = 0;
-				alrm.TempLow = 0;
-			}
-			else if(TmpComp == 1)													// Out of range Low
-			{
-				alrm.TempHigh = 0;
-				alrm.TempLow = 1;
-			}
-			else if(TmpComp == 2)													// Out of range High
-			{
-				alrm.TempHigh = 1;
-				alrm.TempLow = 0;
-			}
-		}
-		//=================== pH alarm ==============
-		if(ADCa.ADCact == 1 && pH.AlarmActive == 1)
-		{
-			TmpComp = Comparator3S(&pH_Alarm,Real.TankpH * 1000);
-			if(TmpComp == 0)								
-			{
-				alrm.pH_High = 0;
-				alrm.pH_Low = 0;
-			}
-			else if(TmpComp == 1)
-			{
-				alrm.pH_High = 0;
-				alrm.pH_Low = 1;
-			}
-			else if(TmpComp == 2)
-			{
-				alrm.pH_High = 1;
-				alrm.pH_Low = 0;
-			}
-		}
+
 		//====================================================
 		//delay(100);
 		usleep(100 * 1000);				// 100 * 1000			// Controller loop ~10/sec
@@ -566,6 +519,97 @@ ReadIniFile:
 }
 //**************************************************************************************************
 //
+//**************************************************************************************************
+
+//=================================================================================				
+//						  Process controllers
+//				  Simple bang-bang hysteretic control
+//=================================================================================				
+void ExecProccessControl(void)
+{
+
+	//============== Temperature Controller =====================
+	if(ADCa.ADCact == 1 && Temperature.ControlActive == 1)
+	{
+		if(Comparator(&Temp_Controller,Real.TankTemp * 1000)) HEATER_OFF();				// Compare Real tank temperature with tSet High & tSet Low
+		else												  HEATER_ON();
+	}
+	else
+	{
+		HEATER_OFF();
+	}
+	//============== pH Controller =====================
+	if(ADCa.ADCact == 1 && pH.ControlActive == 1)
+	{
+		if(Comparator(&pH_Controller,Real.TankpH * 1000))	  CO2_ON();
+		else												  CO2_OFF();	
+	}
+	else
+	{
+		CO2_OFF();
+	}
+			//============== Fan Controller =====================
+	if(ADCa.ADCact == 1 && Fan.ControlActive == 1)
+	{
+		if(Comparator(&Fan_Controller,Real.TankTemp * 1000))  FAN_ON();
+		else												  FAN_OFF();
+	}	
+	else
+	{
+		FAN_OFF();	
+	}
+}
+
+//=================================================================================				
+//						  Alarm controller
+//				Compare measurements against alarm limits
+//=================================================================================				
+void CheckForAlarms(void)
+{
+	BYTE TmpComp;
+	//=================== Temperature alarm ==============
+	if(ADCa.ADCact == 1 && Temperature.AlarmActive == 1)
+	{
+		TmpComp = Comparator3S(&Temp_Alarm,Real.TankTemp * 1000);				// 3 state comparator
+		if(TmpComp == 0)														// In range
+		{
+			alrm.TempHigh = 0;
+			alrm.TempLow = 0;
+		}
+		else if(TmpComp == 1)													// Out of range Low
+		{
+			alrm.TempHigh = 0;
+			alrm.TempLow = 1;
+		}
+		else if(TmpComp == 2)													// Out of range High
+		{
+			alrm.TempHigh = 1;
+			alrm.TempLow = 0;
+		}
+	}
+	//=================== pH alarm ==============
+	if(ADCa.ADCact == 1 && pH.AlarmActive == 1)
+	{
+		TmpComp = Comparator3S(&pH_Alarm,Real.TankpH * 1000);
+		if(TmpComp == 0)								
+		{
+			alrm.pH_High = 0;
+			alrm.pH_Low = 0;
+		}
+		else if(TmpComp == 1)
+		{
+			alrm.pH_High = 0;
+			alrm.pH_Low = 1;
+		}
+		else if(TmpComp == 2)
+		{
+			alrm.pH_High = 1;
+			alrm.pH_Low = 0;
+		}
+	}
+}
+
+//**************************************************************************************************
 //**************************************************************************************************
 enum{ ST_ADA_0, ST_ADA_1};
 enum{ ST_ADB_0, ST_ADB_1, ST_ADB_2};
