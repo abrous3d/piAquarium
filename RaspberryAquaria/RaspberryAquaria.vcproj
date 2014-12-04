@@ -94,6 +94,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Messaging.c"
+				>
+			</File>
+			<File
 				RelativePath=".\minIni.c"
 				>
 			</File>

@@ -238,13 +238,7 @@ int main(void)
 	struct pollfd ufds[1];   
 	char buffer[BUF_LEN];															// used by inotify
 	struct sigaction action;														// KILL and TERM signal handling
-    //*********** message FIFO -> server ************ 
-	int srv_mesf_fd;																// app to Server message fifo handler
-	int app_mesf_fd;																// Server to application message fifo
-    
-	char *ToServMesFifo = "/tmp/srvmesfifo";
-	char *FromServMesFifo = "/tmp/appmesfifo";
-	
+    	
 	//***********************************************
 IF_TERMINAL_ON()
 	{
@@ -258,22 +252,7 @@ IF_TERMINAL_ON()
     memset(&action, 0, sizeof(struct sigaction));
     action.sa_handler = ShutDownPi;	
 	sigaction(SIGTERM, &action, NULL);	
-	//************************************************************
-	//			Initialize communication FIFO
-	//************************************************************
-#if 0
-    //mkfifo(ToServMesFifo, 0666);
-	//mkfifo(FromServMesFifo, 0666);
-
-	system("mkfifo /tmp/PIPE_FRM_SRV");
-    system("mkfifo /tmp/PIPE_TO_SRV");
-    // open file descriptors of named pipes to watch
-    npfd_Tsrv = open("/tmp/PIPE_FRM_SRV", O_RDWR | O_NONBLOCK);
-    if (npfd_Tsrv == -1) {
-        perror("open");
-        return EXIT_FAILURE;
-    }
-#endif
+	
 	//************************************************************	
 //	DbCreate();																	// Create new database//
 //	DbTableCreate();															// I have to handle this situation somehow
@@ -286,7 +265,7 @@ IF_TERMINAL_ON()
 	TermOnFlag = 0;
 #endif	
 //=========== execute WiringPi spi library extension ==============
-	int status = system("gpio load spi");
+	int status = system("/root/wiringPi/gpio/gpio load spi");					// Call wiringPi spi 
 //			FIX ME -> add some error checking here 
 //=================================================================
 	
@@ -406,7 +385,7 @@ ReadIniFile:
 		case 3:
 			//================================================================================
 			//			Check if schedule.ini has been changed by the user or ui
-				//================================================================================
+			//================================================================================
 				
 			i = 0;
 			BYTE iniModifiedFlag = 0;
