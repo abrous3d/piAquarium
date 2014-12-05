@@ -19,5 +19,6 @@
         <File name="rtd.h" />
         <File name="schedule.ini" />
         <File name="Notes.txt" />
+        <File name="Messaging.c" />
     </Project>
 </NotepadPlus>
