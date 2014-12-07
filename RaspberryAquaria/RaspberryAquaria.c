@@ -59,7 +59,7 @@
 #include <stdlib.h>
 #include <fcntl.h>
 #include <unistd.h>
-
+#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -83,6 +83,7 @@
 #include <softPwm.h>
 #include "MoonPhase.h"
 #include "database.h"
+#include "Messaging.h"
 #include <mysql/mysql.h>
 #include <sys/inotify.h>
 //***************************************************************************
@@ -305,6 +306,9 @@ IF_TERMINAL_ON()
 	ufds[0].fd = fd;
     ufds[0].events = POLLIN;
 
+	//====== Initializes messaging FIFOs from/to server ======	
+
+	Com_Fifo_init();
 
 	//====== Read user config files and init tables ==========
 ReadIniFile:
@@ -418,7 +422,7 @@ ReadIniFile:
 			break;
 		//************************************	
 			case 4:
-				BlinkActLed();
+				BlinkActLed();				
 			break;
 		//************************************	
 			case 5:
@@ -490,7 +494,8 @@ ReadIniFile:
 			Real.TankTemp = roundf( T_rtd(Rfl) * 100) / 100 ;						   				    // Linearize pt100									
 			ADCa.SigB = 0;
 		}		
-
+		//====================================================
+		Com_Fifo_update();														// Respond to commands from server
 		//====================================================
 		//delay(100);
 		usleep(100 * 1000);				// 100 * 1000			// Controller loop ~10/sec
@@ -1517,9 +1522,10 @@ void ReadEnviromentalSensor(BYTE ch)
 //==================================================================================================
 //			SIGTERM handle - close all open files and exit gracefully
 //==================================================================================================
-void	ShutDownPi(void)
+void ShutDownPi(void)
 {
 	DbDisconnect();																	// DataBase Close
+	Com_Fifo_kill();
 	
 }
 //=================================================================================				

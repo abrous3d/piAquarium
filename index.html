@@ -1,0 +1,26 @@
+<html>
+
+<body>
+<h1>My first PHP page</h1>
+
+<?php
+$pipefilein = '/tmp/fifoToSrv';
+$pipefileout = '/tmp/fifoFrmSrv';
+
+echo "Hello World!";
+
+$pipe_r = fopen($pipefilein,'r+');
+if(!$pipe_r) die('unable to open the Read pipe');
+stream_set_blocking($pipe_r,false);
+
+$pipe_w = fopen($pipefileout,'r+');
+if(!$pipe_w) die('unable to open the Write pipe');
+stream_set_blocking($pipe_w,false);
+
+
+
+
+
+?>
+</body>
+</html>

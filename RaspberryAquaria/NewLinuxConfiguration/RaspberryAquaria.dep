@@ -30,6 +30,14 @@ NewLinuxConfiguration/RaspberryAquaria.o: RaspberryAquaria.c \
  c:\sysgcc\raspberry\bin\../arm-linux-gnueabihf/sysroot/usr/include/arm-linux-gnueabihf/bits/environments.h \
  c:\sysgcc\raspberry\bin\../arm-linux-gnueabihf/sysroot/usr/include/arm-linux-gnueabihf/bits/confname.h \
  c:\sysgcc\raspberry\bin\../arm-linux-gnueabihf/sysroot/usr/include/getopt.h \
+ c:\sysgcc\raspberry\bin\../arm-linux-gnueabihf/sysroot/usr/include/math.h \
+ c:\sysgcc\raspberry\bin\../arm-linux-gnueabihf/sysroot/usr/include/arm-linux-gnueabihf/bits/huge_val.h \
+ c:\sysgcc\raspberry\bin\../arm-linux-gnueabihf/sysroot/usr/include/arm-linux-gnueabihf/bits/huge_valf.h \
+ c:\sysgcc\raspberry\bin\../arm-linux-gnueabihf/sysroot/usr/include/arm-linux-gnueabihf/bits/huge_vall.h \
+ c:\sysgcc\raspberry\bin\../arm-linux-gnueabihf/sysroot/usr/include/arm-linux-gnueabihf/bits/inf.h \
+ c:\sysgcc\raspberry\bin\../arm-linux-gnueabihf/sysroot/usr/include/arm-linux-gnueabihf/bits/nan.h \
+ c:\sysgcc\raspberry\bin\../arm-linux-gnueabihf/sysroot/usr/include/arm-linux-gnueabihf/bits/mathdef.h \
+ c:\sysgcc\raspberry\bin\../arm-linux-gnueabihf/sysroot/usr/include/arm-linux-gnueabihf/bits/mathcalls.h \
  c:\sysgcc\raspberry\bin\../arm-linux-gnueabihf/sysroot/usr/include/stdio.h \
  c:\sysgcc\raspberry\bin\../arm-linux-gnueabihf/sysroot/usr/include/libio.h \
  c:\sysgcc\raspberry\bin\../arm-linux-gnueabihf/sysroot/usr/include/_G_config.h \
@@ -66,7 +74,7 @@ NewLinuxConfiguration/RaspberryAquaria.o: RaspberryAquaria.c \
  C:\SysGCC\raspberry\arm-linux-gnueabihf\sysroot\usr\local\include/wiringPi.h \
  C:\SysGCC\raspberry\arm-linux-gnueabihf\sysroot\usr\local\include/maxdetect.h \
  C:\SysGCC\raspberry\arm-linux-gnueabihf\sysroot\usr\local\include/softPwm.h \
- MoonPhase.h database.h \
+ MoonPhase.h database.h Messaging.h \
  c:\sysgcc\raspberry\bin\../arm-linux-gnueabihf/sysroot/usr/include/mysql/mysql.h \
  c:\sysgcc\raspberry\bin\../arm-linux-gnueabihf/sysroot/usr/include/mysql/mysql_version.h \
  c:\sysgcc\raspberry\bin\../arm-linux-gnueabihf/sysroot/usr/include/mysql/mysql_com.h \
