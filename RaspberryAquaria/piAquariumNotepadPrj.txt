@@ -20,5 +20,6 @@
         <File name="schedule.ini" />
         <File name="Notes.txt" />
         <File name="Messaging.c" />
+        <File name="sockets.c" />
     </Project>
 </NotepadPlus>

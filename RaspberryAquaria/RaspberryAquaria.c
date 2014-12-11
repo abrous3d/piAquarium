@@ -498,7 +498,7 @@ ReadIniFile:
 		Com_Fifo_update();														// Respond to commands from server
 		//====================================================
 		//delay(100);
-		usleep(100 * 1000);				// 100 * 1000			// Controller loop ~10/sec
+		usleep(100 * 1000);														// Controller loop ~10/sec
 	}	
 	return 0;
 }
