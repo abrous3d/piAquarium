@@ -86,6 +86,7 @@
 #include "Messaging.h"
 #include <mysql/mysql.h>
 #include <sys/inotify.h>
+#include "aq_sockets.h"
 //***************************************************************************
 #define sizearray(a)  (sizeof(a) / sizeof((a)[0]))
 //***************************************************************************
@@ -442,7 +443,8 @@ ReadIniFile:
 				CheckForAlarms();											// Compare measurements against alarm limits
 			break;
 		//************************************		
-			case 8:			
+			case 8:	
+				SockProcess();
 				if(DataBaseUpdateDiv++ > DATABASEUPDATE)
 				{
 					DataBaseUpdateDiv = 0;

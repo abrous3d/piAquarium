@@ -23,7 +23,7 @@ error:
 	$(error Invalid configuration, please check your inputs)
 endif
 
-SOURCEFILES := AD7785_DRV.c controller.c database.c minIni.c ModeFilter.c MoonPhase.c RaspberryAquaria.c rtd.c
+SOURCEFILES := AD7785_DRV.c controller.c database.c Messaging.c minIni.c ModeFilter.c MoonPhase.c RaspberryAquaria.c rtd.c sockets.c
 EXTERNAL_LIBS := 
 EXTERNAL_LIBS_COPIED := $(foreach lib, $(EXTERNAL_LIBS),$(BINARYDIR)/$(notdir $(lib)))
 

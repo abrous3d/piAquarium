@@ -82,4 +82,5 @@ NewLinuxConfiguration/RaspberryAquaria.o: RaspberryAquaria.c \
  c:\sysgcc\raspberry\bin\../arm-linux-gnueabihf/sysroot/usr/include/mysql/my_list.h \
  c:\sysgcc\raspberry\bin\../arm-linux-gnueabihf/sysroot/usr/include/mysql/typelib.h \
  c:\sysgcc\raspberry\bin\../arm-linux-gnueabihf/sysroot/usr/include/mysql/my_alloc.h \
- c:\sysgcc\raspberry\bin\../arm-linux-gnueabihf/sysroot/usr/include/arm-linux-gnueabihf/sys/inotify.h
+ c:\sysgcc\raspberry\bin\../arm-linux-gnueabihf/sysroot/usr/include/arm-linux-gnueabihf/sys/inotify.h \
+ aq_sockets.h

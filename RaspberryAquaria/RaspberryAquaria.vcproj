@@ -86,6 +86,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\aq_sockets.c"
+				>
+			</File>
+			<File
 				RelativePath=".\controller.c"
 				>
 			</File>
