@@ -107,6 +107,9 @@ int SockProcess(void)
     //printf("Message from client: %s\n", buffer);
 
     int len = sprintf(obuf,"%0.2f,%0.2f,%0.2f,%0.2f,%0.2f,%0.2f,%01d,%03d,%01d,%03d,%01d,%03d,%d,%d,%01d,%01d,%01d,%01d\0", Real.TankpH, Real.TankTemp, Real.EnvTemp1, Real.EnvHumidity1,Real.EnvTemp2, Real.EnvHumidity2,Outputs.L0IsOn,Outputs.L0intensity,Outputs.L1IsOn,Outputs.L1intensity,Outputs.L2IsOn,Outputs.L2intensity,ADCa.chA_fltr, ADCa.chB_fltr,alrm.TempHigh,alrm.TempLow,alrm.pH_High,alrm.pH_Low);	
+	
+	//int len = sprintf(obuf,"{\"pH\":\"%0.2f\"}, {\"temp\":\"%0.2f\"}, {\"envtmp\":\"%0.2f\"}, {\"%0.2f,%0.2f,%0.2f,%01d,%03d,%01d,%03d,%01d,%03d,%d,%d,%01d,%01d,%01d,%01d\0", 
+	//	Real.TankpH, Real.TankTemp, Real.EnvTemp1, Real.EnvHumidity1,Real.EnvTemp2, Real.EnvHumidity2,Outputs.L0IsOn,Outputs.L0intensity,Outputs.L1IsOn,Outputs.L1intensity,Outputs.L2IsOn,Outputs.L2intensity,ADCa.chA_fltr, ADCa.chB_fltr,alrm.TempHigh,alrm.TempLow,alrm.pH_High,alrm.pH_Low);	
 	//Sockets Layer Call: send()
     n = send(newsockfd, obuf, len, 0);
     if (n < 0)
