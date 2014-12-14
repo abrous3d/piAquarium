@@ -423,7 +423,8 @@ ReadIniFile:
 			break;
 		//************************************	
 			case 4:
-				BlinkActLed();				
+				BlinkActLed();		
+				SockProcess();
 			break;
 		//************************************	
 			case 5:
