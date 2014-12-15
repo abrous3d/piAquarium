@@ -60,7 +60,7 @@ int SockProcess(void)
 {
 	static unsigned int SockInit;
 	int n;
-	char buffer[256];
+	char buffer[1024];
 	char obuf[1024];
 
 	if(SockInit != 0xDEADCAFE){
@@ -98,11 +98,11 @@ int SockProcess(void)
     //Sockets Layer Call: inet_ntoa()	
     printf("Incoming connection from client having IPv4 address: %s\n",    inet_ntoa(cli_addr.sin_addr));
 
-    memset(buffer,0, 256);
+    memset(buffer,0, sizeof(buffer));
     
     //Sockets Layer Call: recv()
-    //n = recv(newsockfd, buffer, 255, 0);
-    //if (n < 0)	error("ERROR reading from socket");
+    n = recv(newsockfd, buffer, sizeof(buffer), 0);
+    if (n < 0)	error("ERROR reading from socket");
 
     //printf("Message from client: %s\n", buffer);
 
@@ -110,9 +110,15 @@ int SockProcess(void)
 	
 	//int len = sprintf(obuf,"{\"Realv\":{\"pH\":\"%0.2f\",\"temp\":\"%0.2f\",\"envtmp1\":\"%0.2f\",\"envhum1\":\"%0.2f\",\"envtmp2\":\"%0.2f\",\"envhum2\":\"%0.2f\",\"l0on\":\"%01d\",\"l0int\":\"%03d\",\"l1on\":\"%01d\",\"l1int\":\"%03d\",\"l2on\":\"%01d\",\"l2int\":\"%03d\",\"row1\":\"%d\",\"row2\":\"%d\",\"al_th\":\"%01d\",\"al_tl\":\"%01d\",\"al_ph\":\"%01d\",\"al_pl\":\"%01d\",\"ther_on\":\"%01d\",\"fan_on\":\"%01d\",\"co2_on\":\"%01d\"}}\0", Real.TankpH, Real.TankTemp, Real.EnvTemp1, Real.EnvHumidity1,Real.EnvTemp2, Real.EnvHumidity2,Outputs.L0IsOn,Outputs.L0intensity,Outputs.L1IsOn,Outputs.L1intensity,Outputs.L2IsOn,Outputs.L2intensity,ADCa.chA_fltr, ADCa.chB_fltr,alrm.TempHigh,alrm.TempLow,alrm.pH_High,alrm.pH_Low,Outputs.HeaterIsON,Outputs.FanIsON,Outputs.CO2IsON);	
 	//int len = sprintf(obuf,"{\"pH\":\"%0.2f\",\"temp\":\"%0.2f\",\"envtmp1\":\"%0.2f\",\"envhum1\":\"%0.2f\",\"envtmp2\":\"%0.2f\",\"envhum2\":\"%0.2f\",\"l0on\":\"%01d\",\"l0int\":\"%03d\",\"l1on\":\"%01d\"},{\"l1int\":\"%03d\",\"l2on\":\"%01d\",\"l2int\":\"%03d\",\"row1\":\"%d\",\"row2\":\"%d\",\"al_th\":\"%01d\",\"al_tl\":\"%01d\",\"al_ph\":\"%01d\",\"al_pl\":\"%01d\",\"ther_on\":\"%01d\",\"fan_on\":\"%01d\",\"co2_on\":\"%01d\"}\0", Real.TankpH, Real.TankTemp, Real.EnvTemp1, Real.EnvHumidity1,Real.EnvTemp2, Real.EnvHumidity2,Outputs.L0IsOn,Outputs.L0intensity,Outputs.L1IsOn,Outputs.L1intensity,Outputs.L2IsOn,Outputs.L2intensity,ADCa.chA_fltr, ADCa.chB_fltr,alrm.TempHigh,alrm.TempLow,alrm.pH_High,alrm.pH_Low,Outputs.HeaterIsON,Outputs.FanIsON,Outputs.CO2IsON);	
-	int len = sprintf(obuf,"{ \"pH\":\"%0.2f\", \"temp\":\"%0.2f\", \"envtmp1\":\"%0.2f\", \"envhum1\":\"%0.2f\", \"envtmp2\":\"%0.2f\", \"envhum2\":\"%0.2f\", \"l0on\":\"%01d\", \"l0int\":\"%03d\", \"l1on\":\"%01d\", \"l1int\":\"%03d\", \"l2on\":\"%01d\", \"l2int\":\"%03d\", \"row1\":\"%d\", \"row2\":\"%d\", \"al_th\":\"%01d\", \"al_tl\":\"%01d\", \"al_ph\":\"%01d\", \"al_pl\":\"%01d\", \"ther_on\":\"%01d\", \"fan_on\":\"%01d\", \"co2_on\":\"%01d\" }\0", Real.TankpH, Real.TankTemp, Real.EnvTemp1, Real.EnvHumidity1,Real.EnvTemp2, Real.EnvHumidity2,Outputs.L0IsOn,Outputs.L0intensity,Outputs.L1IsOn,Outputs.L1intensity,Outputs.L2IsOn,Outputs.L2intensity,ADCa.chA_fltr, ADCa.chB_fltr,alrm.TempHigh,alrm.TempLow,alrm.pH_High,alrm.pH_Low,Outputs.HeaterIsON,Outputs.FanIsON,Outputs.CO2IsON);	
+	//int len = sprintf(obuf,"{ \"pH\":\"%0.2f\", \"temp\":\"%0.2f\", \"envtmp1\":\"%0.2f\", \"envhum1\":\"%0.2f\", \"envtmp2\":\"%0.2f\", \"envhum2\":\"%0.2f\", \"l0on\":\"%01d\", \"l0int\":\"%03d\", \"l1on\":\"%01d\", \"l1int\":\"%03d\", \"l2on\":\"%01d\", \"l2int\":\"%03d\", \"row1\":\"%d\", \"row2\":\"%d\", \"al_th\":\"%01d\", \"al_tl\":\"%01d\", \"al_ph\":\"%01d\", \"al_pl\":\"%01d\", \"ther_on\":\"%01d\", \"fan_on\":\"%01d\", \"co2_on\":\"%01d\" }\0", Real.TankpH, Real.TankTemp, Real.EnvTemp1, Real.EnvHumidity1,Real.EnvTemp2, Real.EnvHumidity2,Outputs.L0IsOn,Outputs.L0intensity,Outputs.L1IsOn,Outputs.L1intensity,Outputs.L2IsOn,Outputs.L2intensity,ADCa.chA_fltr, ADCa.chB_fltr,alrm.TempHigh,alrm.TempLow,alrm.pH_High,alrm.pH_Low,Outputs.HeaterIsON,Outputs.FanIsON,Outputs.CO2IsON);	
 
 	//int len = sprintf(obuf,"{ \"pH\":\"7\", \"temp\":\"20\", \"env1\":\"20\" }\0");	
+	
+	int len = sprintf(obuf,	"HTTP/1.1 200 OK\r\n" 
+							"Content-type:application/JSON"
+							"\r\n\r\n"
+							"{\"pH\":\"%.2f\", \"temp\":\"%.2f\", \"envtmp1\":\"%.2f\", \"envhum1\":\"%.2f\", \"envtmp2\":\"%.2f\", \"envhum2\":\"%.2f\", \"l0on\":\"%01d\", \"l0int\":\"%03d\", \"l1on\":\"%01d\", \"l1int\":\"%03d\", \"l2on\":\"%01d\", \"l2int\":\"%03d\", \"row1\":\"%d\", \"row2\":\"%d\", \"al_th\":\"%01d\", \"al_tl\":\"%01d\", \"al_ph\":\"%01d\", \"al_pl\":\"%01d\", \"ther_on\":\"%01d\", \"fan_on\":\"%01d\", \"co2_on\":\"%01d\" }", Real.TankpH, Real.TankTemp, Real.EnvTemp1, Real.EnvHumidity1,Real.EnvTemp2, Real.EnvHumidity2,Outputs.L0IsOn,Outputs.L0intensity,Outputs.L1IsOn,Outputs.L1intensity,Outputs.L2IsOn,Outputs.L2intensity,ADCa.chA_fltr, ADCa.chB_fltr,alrm.TempHigh,alrm.TempLow,alrm.pH_High,alrm.pH_Low,Outputs.HeaterIsON,Outputs.FanIsON,Outputs.CO2IsON);	
+
 
 	//Sockets Layer Call: send()
     n = send(newsockfd, obuf, len, 0);
