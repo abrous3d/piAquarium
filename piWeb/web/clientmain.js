@@ -2,10 +2,17 @@ var intervalPoll = 1000;
 var dataArray    = []; //[ [10,15,20],[20,25,30] ];
 var graphOpts    = { 
 	 labels: [ "Time", "pH", "Temp", "Env1" ],  
+	 valueRange: [3.0, 10],
+	 ylabel: 'pH',
 	 legend: 'always',
+	 labelsDivStyles: { 'textAlign': 'right' },	
      animatedZooms: true,	  
      rollPeriod: 8,
      showRoller: true, 
+	 title: 'Tank monitor',
+					   Temp  : {
+                       axis : { }
+                     }
 	 };
 
 function TimedServices()
@@ -21,6 +28,11 @@ function TimedServices()
 	  if(dataArray.length > 4096) dataArray.splice(0, 1);
 	  //console.log(JSON.stringify(dataArray));
 	  g1.updateOptions( {'file':dataArray} );
+	  
+	  document.getElementById('disp1').innerHTML =  parseFloat(obj.pH) + "pH";
+      document.getElementById('disp2').innerHTML =  parseFloat(obj.temp)+ "C";
+      document.getElementById('disp4').innerHTML =  parseFloat(obj.envtmp1)+ "C";
+	  
       setTimeout(TimedServices, intervalPoll); // Restart timer (next request)
     },
     //////////////// Function will be called on FAILURE
@@ -59,6 +71,13 @@ $(document).ready(function()
     graphOpts
   );
   
+  $('#btn1').click(function() {
+	$.ajax({
+      url: "signal.cgi?data=123", type: "GET",
+      success: function(response, textStatus, jqXHR) {  },
+      error: function(jqXHR, textStatus, errorThrown) {    }
+    });
+  });
   
   
 })

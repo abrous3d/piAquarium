@@ -15,8 +15,8 @@ http.createServer(function(request, response) {
   var uri       = url.parse(request.url).pathname;
   var filename  = path.join(process.cwd(), 'web/'+uri);
 
-  console.log(request.url);
-  console.log("---> Request: (uri:"+uri+"  filename:"+filename+")");
+  //console.log(request.url);
+  //console.log("---> Request: (uri:"+uri+"  filename:"+filename+")");
 
   ////////// Process dynamic requests first
   //if(httpServ.processRequest(request, response) == true) return;
@@ -30,13 +30,22 @@ http.createServer(function(request, response) {
   //}
   //////// END MUFA
 
+  if(filename.indexOf("signal.cgi") != -1) {
+	//Process whatever u want to do
+	console.log("SIGNALED!!");
+	
+    response.writeHead(200, {"Content-Type": "text/JSON"});
+    response.write("{result:true}");
+    response.end();
+    return;
+  }
   ///////// REQUEST
-  /*if(filename.indexOf("getreadings.cgi") != -1) {
+  if(filename.indexOf("getreadings.cgi") != -1) {
     response.writeHead(200, {"Content-Type": "text/JSON"});
     response.write(JSON.stringify(reading));
     response.end();
     return;
-  }*/
+  }
 
   ///////// Else try to get/send static file
   path.exists(filename, function(exists) {
@@ -67,13 +76,13 @@ function getReadings(onResult, onFailure)
 {
   var options = { host: '127.0.0.1', port:4440, path:'/', method: 'GET', headers: { 'Content-Type': 'application/json' }};
   
-  console.log("Requesting a reading from service..");
+  //console.log("Requesting a reading from service..");
   var req = http.request(options, function(res)
   {
     var output = '';      
-    res.on('data', function (chunk) { console.log("<data>"); output += chunk; });
+    res.on('data', function (chunk) { output += chunk; });
     res.on('end', function() {
-	  console.log("request result:" + output);
+	  //console.log("request result:" + output);
       reading = JSON.parse(output);	  
       onResult(res.statusCode, reading);
     });
@@ -87,7 +96,7 @@ setTimeout(TimedServices, 200); // Start first timer
 
 function TimedServices()
 {
-  console.log("Fired [TimedServices]");
+  //console.log("Fired [TimedServices]");
   getReadings(
     //////////////// Function will be called on success of getting a reading from C service
     function() {

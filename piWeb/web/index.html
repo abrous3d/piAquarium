@@ -1,27 +1,33 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Serial resolver</title>
+    <title>piAquarium WEB</title>
 	<link rel="stylesheet" type="text/css" href="style.css"/>
 	<script type="text/javascript" src="dygraph-combined.js"></script>
 	<script type="text/javascript" src="jquery.min.js">     </script>
     <script type="text/javascript" src="clientmain.js">     </script>
   </head>
   <body>
-  pH:<div id="pH"></div>
-  temp:<div id="temp"></div>
-  env1:<div id="envtmp1"></div>
-  <table>
-  <tr>    
-    <td id="graphdiv1" style="width:800px; height:400px;"></td>
-    <td>
-		<div id="disp4" class="dialog-box" style="color:black; width:160px">--.-</div>
-		<div id="disp1" class="dialog-box" style="color:black; width:160px">--.-</div>
-		<div id="disp2" class="dialog-box" style="color:black; width:160px">--.-</div>
-	</td>
-  </tr>
-</table>
   
+  <table class="dialog-box" style="width:99%; height:30px; margin-bottom:20px;"><tr><td></td></tr></table>
+  
+	<table>
+		<tr style="vertical-align:top">
+			<td >
+				<table >
+					<tr><td><div id="disp1" class="dialog-box" style="color:black; width:160px">--.-</div></td></tr>
+					<tr><td><div id="disp2" class="dialog-box" style="color:black; width:160px">--.-</div></td></tr> 
+					<tr><td><div id="disp4" class="dialog-box" style="color:black; width:160px">--.-</div></td></tr> 
+					
+				</table>
+			</td>
+			<td id="graphdiv1" class="dialog-box" style="width:600px; height:320px; font:12px verdana; overflow:hidden"></td>
+			<td id="graphdiv1" class="dialog-box" style="width:600px; height:320px; font:12px verdana; overflow:hidden"></td>
+		</tr>
+	 </table>
+	 <button id="btn1" class="dialog-box" style="font-size:20px">test</button>
   </body>
 </html>
 
+
+  
