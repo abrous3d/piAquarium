@@ -1,31 +1,31 @@
 var intervalPoll = 1000;
 var dataArray    = []; //[ [1,15,20],[2,25,30] ];
 var graphOpts    = { 
-	 labels: [ "Time", "pH", "Temp" ],  
-	 valueRange: [3.0, 10],
-	 ylabel: 'pH',
+	 labels: [ "Time", "Temperature", "pH" ],  	 
+	 ylabel: 'Temperature',
+	 valueRange: [20, 30],
 	 legend: 'always',
 	 labelsDivStyles: { 'textAlign': 'right' },	
      animatedZooms: true,	  
      rollPeriod: 8,
      showRoller: true, 
 	 title: 'Tank monitor',
-					   Temp  : {
+					   pH  : {
                        axis : { }
                      }
 	 };
 
 var dataArrayGr2    = []; //[ [10,15,20],[20,25,30] ];	 
 var graphOptsGr2    = { 
-	 labels: [ "Time", "Temp", "Hum" ],  	 
-	 ylabel: 'Temperature',
+	 labels: [ "Time", "Temperature", "Humidity" ],  	 	 
+	 ylabel: 'Temperature',	 
 	 legend: 'always',
 	 labelsDivStyles: { 'textAlign': 'right' },	
      animatedZooms: true,	  
      rollPeriod: 8,
      showRoller: true, 
 	 title: 'Environment monitor',
-					   Temp  : {
+					   Humidity  : {
                        axis : { }
                      }
 	 };
@@ -70,8 +70,8 @@ function TimedServices()
       if('temp' in obj) $('#temp').html(obj.temp); else $('#temp').html('??'); 
       if('envtmp1' in obj) $('#envtmp1').html(obj.envtmp1); else $('#envtmp1').html('??'); 
 	  if('envhum1' in obj) $('#envhum1').html(obj.envhum1); else $('#envhum1').html('??'); 
-	  dataArray.push( [ new Date(), parseFloat(obj.pH), parseFloat(obj.temp)] );
-	  dataArrayGr2.push( [ new Date(), parseFloat(obj.envtmp1) , parseFloat(obj.envhum1) ] );
+	  dataArray.push( [ new Date(), parseFloat(obj.temp), parseFloat(obj.pH)]);
+	  dataArrayGr2.push( [ new Date(), parseFloat(obj.envtmp1), parseFloat(obj.envhum1)] );
 	  
 	  
 	  Lamp_Heat(obj.ther_on);
