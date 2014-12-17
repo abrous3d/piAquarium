@@ -20,6 +20,15 @@
         <File name="schedule.ini" />
         <File name="Notes.txt" />
         <File name="Messaging.c" />
-        <File name="sockets.c" />
+        <File name="aq_sockets.c" />
+    </Project>
+    <Project name="web">
+        <File name="C:\WorkSpace\piAquarium\piAquarium\piWeb\web\clientmain.js" />
+        <File name="C:\WorkSpace\piAquarium\piAquarium\piWeb\web\dygraph-combined.js" />
+        <File name="C:\WorkSpace\piAquarium\piAquarium\piWeb\web\index.html" />
+        <File name="C:\WorkSpace\piAquarium\piAquarium\piWeb\web\jquery.min.js" />
+        <File name="C:\WorkSpace\piAquarium\piAquarium\piWeb\web\style.css" />
+        <File name="C:\WorkSpace\piAquarium\piAquarium\piWeb\web\web.prj" />
+        <File name="C:\WorkSpace\piAquarium\piAquarium\piWeb\readservice.js" />
     </Project>
 </NotepadPlus>
