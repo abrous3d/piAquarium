@@ -267,7 +267,7 @@ IF_TERMINAL_ON()
 	TermOnFlag = 0;
 #endif	
 //=========== execute WiringPi spi library extension ==============
-	int status = system("/root/wiringPi/gpio/gpio load spi");					// Call wiringPi spi 
+	int status = system("/root/wiringPi/gpio/gpio load spi");					// Call wiringPi spi 	
 //			FIX ME -> add some error checking here 
 //=================================================================
 	

@@ -4,7 +4,7 @@ var http    = require("http"),
     path    = require("path"),
     fs      = require("fs");
 
-var http_server_port = 81;  // 
+var http_server_port = 5553;  // 
 var reading = { "result":"no reading yet" };
 
 /////////////////////////////////////////////////////////////////////

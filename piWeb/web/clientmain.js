@@ -3,10 +3,18 @@ var dataArray    = []; //[ [1,15,20],[2,25,30] ];
 var graphOpts    = { 
 	 labels: [ "Time", "Temperature", "pH" ],  	 
 	 ylabel: 'Temperature',
-	 valueRange: [20, 30],
+	 axes: {
+              y: {
+                valueRange: [20, 30],
+              },
+              y2: {
+                // set axis-related properties here
+                valueRange: [6,8],               
+              }
+            },	 
 	 legend: 'always',
 	 labelsDivStyles: { 'textAlign': 'right' },	
-     animatedZooms: true,	  
+     animatedZooms: false,	  
      rollPeriod: 8,
      showRoller: true, 
 	 title: 'Tank monitor',
@@ -20,8 +28,18 @@ var graphOptsGr2    = {
 	 labels: [ "Time", "Temperature", "Humidity" ],  	 	 
 	 ylabel: 'Temperature',	 
 	 legend: 'always',
+	 axes: {
+              y: {
+                valueRange: [10, 40],
+              },
+              y2: {
+                // set axis-related properties here
+                valueRange: [0,100],               
+              }
+            },	 
+	 
 	 labelsDivStyles: { 'textAlign': 'right' },	
-     animatedZooms: true,	  
+     animatedZooms: false,	  
      rollPeriod: 8,
      showRoller: true, 
 	 title: 'Environment monitor',
@@ -33,29 +51,30 @@ var graphOptsGr2    = {
  function Lamp_CO2(state) {
     var image = document.getElementById('CO2_lamp');
     if (state == 0) {
-        image.src = "green_light.png";
+        image.src = "black_light.png";
     } else {
-        image.src = "red_light.png";
+        image.src = "green_light.png";
     }
   }
   
   function Lamp_Heat(state) {
     var image = document.getElementById('Heat_lamp');
     if (state == 0) {
-        image.src = "green_light.png";
+        image.src = "black_light.png";
     } else {
-        image.src = "red_light.png";
+        image.src = "green_light.png";
     }
   }	 
 	
   function Lamp_Fan(state) {
     var image = document.getElementById('Fan_lamp');
     if (state == 0) {
-        image.src = "green_light.png";
+        image.src = "black_light.png";
     } else {
-        image.src = "red_light.png";
+        image.src = "green_light.png";
     }
-  }	
+  }
+  
 	 
 function TimedServices()
 {
@@ -89,9 +108,24 @@ function TimedServices()
       document.getElementById('disp3').innerHTML =  parseFloat(obj.envhum1)+ "%RH";
 	  document.getElementById('disp4').innerHTML =  parseFloat(obj.envtmp1)+ "C";
 	  
-	
+	  
+	  var pBar = document.getElementById('L0Progress');
+	  pBar.value = parseInt(obj.l0int);
+	  document.getElementById('L0intText').innerHTML =  parseInt(obj.l0int) + "%";
+	  
+	  pBar = document.getElementById('L1Progress');
+	  pBar.value = parseInt(obj.l1int);
+	  document.getElementById('L1intText').innerHTML =  parseInt(obj.l1int) + "%";
+	  
+	  pBar = document.getElementById('L2Progress');
+	  pBar.value = parseInt(obj.l2int);
+	  document.getElementById('L2intText').innerHTML =  parseInt(obj.l2int) + "%";
 		
-
+	  //pBar = document.getElementById('L1Progress');
+	  //pBar.value = parseInt(obj.l1int);
+	
+	  //pBar = document.getElementById('L2Progress');
+	  //pBar.value = parseInt(obj.l2int);
 	
       setTimeout(TimedServices, intervalPoll); // Restart timer (next request)
     },

@@ -58,3 +58,10 @@ html, body {
         background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0, rgb(255,255,255)),color-stop(1, rgb(180,180,180)));
 
 }
+
+.progress {
+  /* Reset the default appearance */
+  
+  width: 120px;
+  height: 20px;
+}
