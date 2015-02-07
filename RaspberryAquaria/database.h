@@ -28,4 +28,5 @@ void DbConnect(void);
 void DbDisconnect(void);
 void DbWriteData(void);
 void DataBaseCleanup(void);
+void UpdateCSVfromMySQL(void);
 //==============================================================================

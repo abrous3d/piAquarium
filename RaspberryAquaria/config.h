@@ -36,28 +36,30 @@
 //================================================================================
 //				Configuration definitions
 //================================================================================
+//#define		NO_FILTERING
+
 #define     MEDIAN_FILTER_MAX_SIZE            33									
 #define     MAX_MAV_LENGTH                    64
 
-#define     pH_MEDIAN_LEN					  11								// Median filter for pH - increase for more intense filtering 		
+#define     pH_MEDIAN_LEN					  31								// Median filter for pH - increase for more intense filtering 		
 #define     pH_MAV_LEN					   	  16								// Moving average filter for pH electrode - 
 
-#define     TEMP_MEDIAN_LEN					  11
+#define     TEMP_MEDIAN_LEN					  31
 #define     TEMP_MAV_LEN				   	  16
 
-#define		ENV_TEMP1_MED_LEN				  5									// environmental sensor filtering
+#define		ENV_TEMP1_MED_LEN				  11								// environmental sensor filtering
 #define		ENV_TEMP1_MAV_LEN				  4
 
-#define		ENV_HUM1_MED_LEN				  9
+#define		ENV_HUM1_MED_LEN				  11
 #define		ENV_HUM1_MAV_LEN				  8
 
-#define		ENV_TEMP2_MED_LEN				  5									// environmental sensor filtering
-#define		ENV_TEMP2_MAV_LEN				  4
+#define		ENV_TEMP2_MED_LEN				  11									// environmental sensor filtering
+#define		ENV_TEMP2_MAV_LEN				  8
 
 #define		ENV_HUM2_MED_LEN				  9
 #define		ENV_HUM2_MAV_LEN				  8
 
-#define 	TERMINAL_OUT					  1									// comment this to switch off console output	
+//#define 	TERMINAL_OUT					  									// comment this to switch off console output	
 
 #define		MYSQL_USER						  "root"							// MYSQL database user
 #define		MYSQL_PASS						  "piaquarium"						// MYSQL database password

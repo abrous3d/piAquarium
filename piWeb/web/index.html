@@ -14,10 +14,11 @@
   
   <table class="dialog-box" style="width:99%; height:70px; margin-bottom:20px;"><tr><td style="font-size:50px; font-family:Eras Demi ITC">piAquarium</td></tr></table>
   
-	<table>
+	<table style="height:400px">
 		<tr style="vertical-align:top">
 			<td >
-				<table>
+				
+				 <table class="dialog-box" style="width:180px; height:100%;font-family:Verdana; text-align:left; padding-top:10px; padding-bottom:0px; font-size:12px; overflow:hidden;">
 					<tr><td style="font-size:24px; font-family:Eras Demi ITC" > <center><b>Tank</b></center> </td></tr>
 					<tr><td><div id="disp2" class="dialog-box" style="color:black; width:160px">--.-</div></td></tr>
 					<tr><td><div id="disp1" class="dialog-box" style="color:black; width:160px">--.-</div></td></tr> 
@@ -27,30 +28,43 @@
 					<tr><td><div id="disp3" class="dialog-box" style="color:black; width:160px">--.-</div></td></tr> 
 					<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;   </td></tr> 
 					
-					<tr><td> <table><tr><td> <img id="CO2_lamp" src="images\black_light.png" width="56" height="56"> </td> <td style="font-size:24px; font-family:Eras Demi ITC" > <b>CO2</b> </td>   </tr></table> </td></tr> 
+					<tr><td> <table><tr><td> <img id="CO2_lamp" src="images\black_light.png" width="56" height="56"> </td> <td style="font-size:24px; font-family:Eras Demi ITC" > <b>CO2</b> </td>   </tr></table> </td></tr>
 					<tr><td><table><tr><td> <img id="Heat_lamp" src="images\black_light.png" width="56" height="56"> </td> <td style="font-size:24px; font-family:Eras Demi ITC" > <b>HEATER</b> </td>   </tr></table> </td></tr> 
-					<tr><td><table><tr><td> <img id="Fan_lamp" src="images\black_light.png" width="56" height="56" > </td> <td style="font-size:24px; font-family:Eras Demi ITC" > <b>FAN</b> </td>   </tr></table> </td></tr> 
-					
-					
-					<tr><td> <progress class="progress" id="L0Progress" max="100"></td><td><div id="L0intText" style="color:black; width:26px">---</div> </td></tr> 
-					<tr><td> <progress class="progress" id="L1Progress" max="100"></td><td><div id="L1intText" style="color:black; width:26px">---</div> </td></tr>  
-					<tr><td> <progress class="progress" id="L2Progress" max="100"></td><td><div id="L2intText" style="color:black; width:26px">---</div> </td></tr> 
-							
-				
+					<tr><td><table><tr><td> <img id="Fan_lamp" src="images\black_light.png" width="56" height="56" > </td> <td style="font-size:24px; font-family:Eras Demi ITC" > <b>FAN</b> </td>   </tr></table> </td></tr> 					
 				</table>
 			</td>
-			<td id="graphdiv1" class="dialog-box" style="width:600px; height:320px; font:12px verdana; overflow:hidden"></td>
-			<td> &nbsp;&nbsp;&nbsp;&nbsp; </td>			
-			<td id="graphdiv2" class="dialog-box" style="width:600px; height:320px; font:12px verdana; overflow:hidden"></td>
-				
+			<td> &nbsp; </td>	
+			
+			<td>
+				<table style="height:100%;">
+					<tr>
+						<td class="dialog-box" style="width:600px; height:400px; font:12px verdana;  overflow:hidden; padding-top:10px; padding-bottom:0px; "><div id="graphdiv1" style ="height:450px; overflow:hidden;"></div> </td>
+						<td> &nbsp;</td>			
+						<td class="dialog-box" style="width:600px; height:400px; font:12px verdana;  overflow:hidden; padding-top:10px; padding-bottom:0px; "><div id="graphdiv2" style ="height:450px; overflow:hidden;"></div> </td>			
+					</tr>	
+				</table>
+			</td>
+			
 		</tr>
 		 
 	 </table>
-	 <button id="btn1" class="dialog-box" style="font-size:20px">test</button>
+	 
+	 <td> &nbsp; </td>	
+	 
+	 <table class="dialog-box" style="width:180px;font-family:Verdana; text-align:left; padding-top:10px; padding-bottom:10px; padding-left:25px; font-size:12px;">		
+		<tr><td style="font-size:24px; font-family:Eras Demi ITC" ><center> <b>Lights </b></td></tr>	
+		<td> &nbsp;&nbsp;&nbsp;&nbsp; </td>			
+		<tr><td> <progress class="progress" id="L0Progress" max="100"></td><td><div id="L0intText" style="color:black; width:26px">---</div> </td></tr> 
+		<tr><td> <progress class="progress" id="L1Progress" max="100"></td><td><div id="L1intText" style="color:black; width:26px">---</div> </td></tr>  
+		<tr><td> <progress class="progress" id="L2Progress" max="100"></td><td><div id="L2intText" style="color:black; width:26px">---</div> </td></tr> 
+		<tr><td> &nbsp;&nbsp;&nbsp;&nbsp; </td></tr>	
+	 </table>
+	 
+	 <button onclick="location.href='config.html'" class="dialog-box" style="font-size:20px;width:190px;">Configuration</button>
+	 <!--button id="Auto" class="dialog-box" style="font-size:20px">Auto</button>
+	 <img id="Auto_lamp" src="images\black_light.png" width="30" height="30">
+	 <button id="Manu" class="dialog-box" style="font-size:20px">Manual</button>
+	 <img id="Manu_lamp" src="images\black_light.png" width="30" height="30"-->
 	
-</progress>
   </body>
 </html>
-
-
-  

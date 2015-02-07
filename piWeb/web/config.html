@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>piAquarium Config</title>
+	<link rel="stylesheet" type="text/css" href="style.css"/>
+	<script type="text/javascript" src="dygraph-combined.js"></script>
+	<script type="text/javascript" src="jquery.min.js">     </script>
+    <script type="text/javascript" src="clientconfig.js">     </script>
+  </head>
+  <body>
+  
+  <table class="dialog-box" style="width:400px; height:70px; margin-bottom:20px;"><tr><td style="font-size:40px; font-family:Eras Demi ITC">piAquarium</td></tr></table>
+  
+    <table class="dialog-box" style="width:400px;font-family:Verdana; text-align:left; padding-top:10px; padding-bottom:10px; font-size:12px;">
+	 <tr><td colspan="3" style="font-size:16px; text-align:center;" ><b>CO2 Control</b></td></tr>
+	 <tr style="">
+	 <td><input type="checkbox" id="pHActFlag" name="co2_active" value="1">CO2 ON</td>
+	 </tr>
+	 <tr style="">
+	   <td style="width:120px;"><b>&nbsp;Setpoint:</b></td>
+	   <td style=""><input type="number" id="pHSetP"></td>
+	   <td style=""><b>pH</b></td>
+	 </tr>
+	 <tr style="">
+	   <td style=""><b>&nbsp;Hysteresis:</b></td>
+	   <td style=""><input type="number" id="pH_Hyst"/></td>
+	   <td style=""><b>pH</b></td>
+	 </tr>
+	 <tr style="">
+	   <td style=""><b>&nbsp;Alarm:</b></td>
+	   <td style=""><input type="number" id="pH_Alarm"/></td>
+	   <td style=""><b>pH(+/-)</b></td>
+	 </tr>
+	</table>
+  
+  
+  
+  
+  
+  <table><tr> </tr></table>
+  
+  
+  
+  
+  <table class="dialog-box" style="width:400px;font-family:Verdana; text-align:left; padding-top:10px; padding-bottom:10px; font-size:12px;">
+	 <tr><td colspan="3" style="font-size:16px; text-align:center;" ><b>Temperature Control</b></td></tr>
+	 <tr style="">
+	 <td><input type="checkbox" id="TempActFlag" name="Temp_active" value="1">Temp.ON</td>
+	 </tr>
+	 <tr style="">
+	   <td style="width:120px;"><b>&nbsp;Setpoint:</b></td>
+	   <td style=""><input type="number" id="TempSetP"/></td>
+	   <td style=""><b>degC</b></td>
+	 </tr>
+	 <tr style="">
+	   <td style=""><b>&nbsp;Hysteresis:</b></td>
+	   <td style=""><input type="number" id="Temp_Hyst"/></td>
+	   <td style=""><b>DegC(+/-)</b></td>
+	 </tr>
+	 <tr style="">
+	   <td style=""><b>&nbsp;Alarm:</b></td>
+	   <td style=""><input type="number" id="Temp_Alarm"/></td>
+	   <td style=""><b>DegC(+/-)</b></td>
+	 </tr>
+	
+	 <tr><td colspan="3" style="font-size:16px; text-align:center;" ><b>Fan Control</b></td></tr>
+	 <tr style="">
+	   <td style="width:120px;"><b>&nbsp;Setpoint:</b></td>
+	   <td style=""><input type="number" id="FanSetP"/></td>
+	   <td style=""><b>degC</b></td>
+	 </tr>
+	 <tr style="">
+	   <td style=""><b>&nbsp;Hysteresis:</b></td>
+	   <td style=""><input type="number" id="Fan_Hyst"/></td>
+	   <td style=""><b>DegC(+/-)</b></td>
+	 </tr>	 
+	</table>
+  
+  
+  
+  
+  <table><tr> </tr></table>
+  
+  
+  <table class="dialog-box" style="width:400px;font-family:Verdana; text-align:left; padding-top:10px; padding-bottom:10px; font-size:12px;">
+	 <tr><td colspan="3" style="font-size:16px; text-align:center;" ><b>Lights Control</b></td></tr>
+	 
+	 <tr style="">
+	   <td style="width:120px;"><b>&nbsp;Scale%:</b></td>
+	   <td style=""><input type="number" id="Scale"/></td>
+	   <td style="font-size:16px;  text-align:left;"><b>%</b></td>
+	 </tr>
+	 
+	 
+	 <tr style="">
+	   <td style="width:120px;"><b>&nbsp;Man%(Ch1):</b></td>
+	   <td style=""><input type="number" id="intChA"/></td>
+	   <td style="font-size:16px;  text-align:left;"><b>%</b></td>
+	 </tr>
+	 
+	 <tr style="">
+	   <td style="width:120px;"><b>&nbsp;Man%(Ch2):</b></td>
+	   <td style=""><input type="number" id="intChB"/></td>
+	   <td style="font-size:16px;  text-align:left;"><b>%</b></td>
+	 </tr>
+	 
+	 <tr style="">
+	   <td style="width:120px;"><b>&nbsp;Man%(Ch3):</b></td>
+	   <td style=""><input type="number" id="intChC"/></td>
+	   <td style="font-size:16px;  text-align:left;"><b>%</b></td>
+	 </tr>
+	 
+	 <tr style="">
+	 <td><input type="checkbox" id="PolarityCh1Flag" name="PolarityCh1Flag" value="1">Pol.Ch1</td>
+	 
+	 
+	 <td><input type="checkbox" id="PolarityCh2Flag" name="PolarityCh2Flag" value="1">Pol.Ch2</td>
+	 
+	 
+	 <td><input type="checkbox" id="PolarityCh3Flag" name="PolarityCh3Flag" value="1">Pol.Ch3</td>
+	 </tr>
+	</table>
+	<button onclick="ButtonLightsAuto()" id="AutoBut" class="dialog-box" style="width:195px; font-size:16px;" >Lights Auto</button>
+	<button onclick="ButtonLightsManual()"id="ManualBut" class="dialog-box" style="width:195px; font-size:16px;">Lights Manual</button>
+  
+  <table><tr> </tr></table>
+  
+  <table class="dialog-box" style="width:400px;font-family:Verdana; text-align:left; padding-top:10px; padding-bottom:10px; font-size:12px;">
+	 <tr><td colspan="3" style="font-size:16px; text-align:center;" ><b>Hardware Setup</b></td></tr>
+	 <tr style="">
+	 <td><input type="checkbox" id="AD0_ActFlag" name="AD0_active" value="1">AD0 present</td>
+	 </tr>
+	 <tr style="">
+	   <td style="width:120px;"><b>&nbsp;AD0ch0:</b></td>
+	   <td style=""><input type="number" size="6"  id="AD0_ch0" class="field left" readonly </td>	   	   
+	 </tr>
+	 
+	 <tr style="">
+	   <td style="width:120px;"><b>&nbsp;AD0ch1:</b></td>
+	   <td style=""><input type="number" size="6"  id="AD0_ch1" class="field left" readonly ></td>
+	 </tr>	 
+	 <tr style="">
+	 <td><input type="checkbox" id="AD1_ActFlag" name="AD1_active" value="1">AD1 present</td>
+	 </tr>
+	 <tr style="">
+	   <td style="width:120px;"><b>&nbsp;AD1ch0:</b></td>
+	   <td style=""><input type="number" size="6"  id="AD1_ch0" class="field left" readonly></td>	   	   
+	 </tr>
+	 
+	 <tr style="">
+	   <td style="width:120px;"><b>&nbsp;AD1ch1:</b></td>
+	   <td style=""><input type="number" size="6"  id="AD1_ch1" class="field left" readonly></td>
+	 </tr>
+	 
+	</table>
+	<button onclick="location.href='index.html'" class="dialog-box" style="font-size:16px;width:195px;">Back to Monitoring</button>
+	<button onclick="ConfigSave()" class="dialog-box" style="font-size:16px;width:195px;">Save</button>
+	
+  </body>
+</html>

@@ -2,7 +2,8 @@
 var http    = require("http"),
     url     = require("url"),
     path    = require("path"),
-    fs      = require("fs");
+    fs      = require("fs"),
+	ini     = require("./ini");
 
 var http_server_port = 5553;  // 
 var reading = { "result":"no reading yet" };
@@ -15,20 +16,16 @@ http.createServer(function(request, response) {
   var uri       = url.parse(request.url).pathname;
   var filename  = path.join(process.cwd(), 'web/'+uri);
 
-  //console.log(request.url);
-  //console.log("---> Request: (uri:"+uri+"  filename:"+filename+")");
-
-  ////////// Process dynamic requests first
-  //if(httpServ.processRequest(request, response) == true) return;
-
-  //////// MUFA
-  //if(filename.indexOf("mufaservice") != -1) {
-  //  response.writeHead(200, {"Content-Type": "text/javascript"});
-  //  response.write('{ "mufafield1":"abcd", "mufafield2":"123", "mufafield3":"3" }');
-  //  response.end();
-  //  return;
-  //}
-  //////// END MUFA
+  
+  request.on('data', function(chunk) {
+	if(filename.indexOf("SaveSchedule.js") != -1) {
+		var cfgobj = chunk.toString();
+		console.log(cfgobj);
+		cfgobj = JSON.parse(cfgobj);
+		fs.writeFileSync('./web/scheduler/schedule.ini', ini.stringify(cfgobj));					
+	}
+  });
+  
 
   if(filename.indexOf("signal.cgi") != -1) {
 	//Process whatever u want to do
@@ -47,6 +44,29 @@ http.createServer(function(request, response) {
     return;
   }
 
+  if(filename.indexOf("gettables.cgi") != -1) {
+    response.writeHead(200, {"Content-Type": "text/JSON"});
+    response.write(JSON.stringify(timetables));
+    response.end();
+    return;
+  }
+  
+  
+  if(filename.indexOf("schedule.js") != -1) {
+  
+	var config = ini.parse(fs.readFileSync('./web/scheduler/schedule.ini', 'utf-8'))	
+    response.writeHead(200, {"Content-Type": "text/JSON"});
+    response.write(JSON.stringify(config));
+    response.end();
+    return;
+  }
+  
+  if(filename.indexOf("SaveSchedule.js") != -1) {
+	response.writeHead(200, {"Content-Type": "text/JSON"});    
+    response.end();
+    return;
+  }
+  
   ///////// Else try to get/send static file
   path.exists(filename, function(exists) {
     if(!exists) {
@@ -74,7 +94,7 @@ http.createServer(function(request, response) {
 
 function getReadings(onResult, onFailure)
 {
-  var options = { host: '127.0.0.1', port:4440, path:'/', method: 'GET', headers: { 'Content-Type': 'application/json' }};
+  var options = { host: '127.0.0.1', port:4440, path:'/getread.req', method: 'GET', headers: { 'Content-Type': 'application/json' }};
   
   //console.log("Requesting a reading from service..");
   var req = http.request(options, function(res)
@@ -91,6 +111,28 @@ function getReadings(onResult, onFailure)
   req.on('error', function(err) { console.log("ERROR: "+err.message); console.log("err="+JSON.stringify(err)); onFailure(err.message); });
   req.end();
 };
+
+
+function getTables(onResult, onFailure)
+{
+  var options = { host: '127.0.0.1', port:4440, path:'/gettables.req', method: 'GET', headers: { 'Content-Type': 'application/json' }};
+  
+  //console.log("Requesting scheduler tables from service..");
+  var req = http.request(options, function(res)
+  {
+    var output = '';      
+    res.on('data', function (chunk) { output += chunk; });
+    res.on('end', function() {	  
+      timetables = JSON.parse(output);	  
+      onResult(res.statusCode, timetables);
+    });
+  });
+
+  req.on('error', function(err) { console.log("ERROR: "+err.message); console.log("err="+JSON.stringify(err)); onFailure(err.message); });
+  req.end();
+};
+
+
 
 setTimeout(TimedServices, 200); // Start first timer
 

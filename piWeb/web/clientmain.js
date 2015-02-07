@@ -1,7 +1,7 @@
-var intervalPoll = 1000;
+var intervalPoll = 5000;
 var dataArray    = []; //[ [1,15,20],[2,25,30] ];
 var graphOpts    = { 
-	 labels: [ "Time", "Temperature", "pH" ],  	 
+	 labels: [ "Time","pH","Temperature" ],  	 
 	 ylabel: 'Temperature',
 	 axes: {
               y: {
@@ -13,6 +13,7 @@ var graphOpts    = {
               }
             },	 
 	 legend: 'always',
+	 colors: ["green","red"],
 	 labelsDivStyles: { 'textAlign': 'right' },	
      animatedZooms: false,	  
      rollPeriod: 8,
@@ -21,13 +22,49 @@ var graphOpts    = {
 					   pH  : {
                        axis : { }
                      }
-	 };
-
+	 };					
+//'#EE1111', '#284785'
 var dataArrayGr2    = []; //[ [10,15,20],[20,25,30] ];	 
+
 var graphOptsGr2    = { 
-	 labels: [ "Time", "Temperature", "Humidity" ],  	 	 
+	 labels: [ 'Time','Temperature','Humidity','Temp2','Hum2' ],  	 	 
 	 ylabel: 'Temperature',	 
 	 legend: 'always',
+	 colors: ["red","blue"],
+	 series : {
+		'Humidity' : { axis:'y2' },
+		'Hum2' : { axis:'y2' }
+	 },
+	 axes: {
+              y: {
+                valueRange: [0, 40],
+              },
+              y2: {
+                // set axis-related properties here
+                valueRange: [0,100],               
+              }
+            },	 
+	 visibility: [true, true, false, false],
+	 labelsDivStyles: { 'textAlign': 'right' },	
+     animatedZooms: false,	  
+     rollPeriod: 8,
+     showRoller: true, 
+	 title: 'Environment monitor',
+					   EnvHum1 : { 						// Humidity  : {
+                       axis : { }
+                     }
+	 }; 
+	
+	 
+	 
+	 //EnvTemp1,EnvHum1,EnvTemp2,EnvHum2
+	 
+	 /*
+	 var graphOptsGr2    = { 
+	 labels: [ "Time","Temperature","Humidity","Temperature","Humidity" ],  	 	 
+	 ylabel: 'Temperature',	 
+	 legend: 'always',
+	 colors: ["red","blue"],
 	 axes: {
               y: {
                 valueRange: [10, 40],
@@ -35,18 +72,32 @@ var graphOptsGr2    = {
               y2: {
                 // set axis-related properties here
                 valueRange: [0,100],               
+              },
+			  y3: {
+                // set axis-related properties here
+                valueRange: [10,40],               
+              },
+			  y4: {
+                // set axis-related properties here
+                valueRange: [0,100],               
               }
+			  
+			  
             },	 
-	 
+	 visibility: [true, true, false, false],
 	 labelsDivStyles: { 'textAlign': 'right' },	
      animatedZooms: false,	  
      rollPeriod: 8,
      showRoller: true, 
 	 title: 'Environment monitor',
-					   Humidity  : {
+					   EnvHum1 : { 						// Humidity  : {
                        axis : { }
                      }
 	 };
+	 
+	 */
+	 
+	 
 	 
  function Lamp_CO2(state) {
     var image = document.getElementById('CO2_lamp');
@@ -100,8 +151,11 @@ function TimedServices()
 	  if(dataArray.length > 4096) dataArray.splice(0, 1);
 	  if(dataArrayGr2.length > 4096) dataArrayGr2.splice(0, 1);
 	  //console.log(JSON.stringify(dataArray));
-	  g1.updateOptions( {'file':dataArray} );
-	  g2.updateOptions( {'file':dataArrayGr2} );
+	  g1.updateOptions({'file':"tank.csv"});
+	  //g1.updateOptions( {'file':dataArray} );
+	  
+	  g2.updateOptions({'file':"env.csv"});
+	  //g2.updateOptions( {'file':dataArrayGr2} );
 	  
 	  document.getElementById('disp1').innerHTML =  parseFloat(obj.pH) + "pH";
       document.getElementById('disp2').innerHTML =  parseFloat(obj.temp)+ "C";
@@ -160,27 +214,48 @@ $(document).ready(function()
   console.log("Started");
   setTimeout(TimedServices, 4000); // Start first timer
   
+  
    
    g1 = new Dygraph(
     document.getElementById("graphdiv1"),
-    dataArray,
-    graphOpts
+    //dataArray,
+    "tank.csv",
+	graphOpts
   );
   
   g2 = new Dygraph(
     document.getElementById("graphdiv2"),
-    dataArrayGr2,
+    "env.csv",
+	//dataArrayGr2,
     graphOptsGr2
   );
   
   
-  $('#btn1').click(function() {
+  $('#Auto').click(function() {
 	$.ajax({
       url: "signal.cgi?data=123", type: "GET",
       success: function(response, textStatus, jqXHR) {  },
       error: function(jqXHR, textStatus, errorThrown) {    }
     });
+	var Auto_image = document.getElementById('Auto_lamp');
+	var Manu_image = document.getElementById('Manu_lamp');
+        Manu_image.src = "black_light.png";    
+        Auto_image.src = "green_light.png";    
   });
+  
+  
+  $('#Manu').click(function() {
+	$.ajax({
+      url: "signal.cgi?data=321", type: "GET",
+      success: function(response, textStatus, jqXHR) {  },
+      error: function(jqXHR, textStatus, errorThrown) {    }
+    });
+	var Auto_image = document.getElementById('Auto_lamp');
+	var Manu_image = document.getElementById('Manu_lamp');
+        Manu_image.src = "red_light.png";    
+        Auto_image.src = "black_light.png";    
+  });
+  
   
 })
 

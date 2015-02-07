@@ -157,8 +157,8 @@ void	CheckForAlarms(void);
 //***************************************************************************
 //					scheduler.ini file 
 //***************************************************************************
-const char inipath[] = "/piAquarium/schedule/";								// Path of .ini file - used by Inotify
-const char inifile[] = "/piAquarium/schedule/schedule.ini";
+const char inipath[] = "/piAquarium/web/scheduler/";								// Path of .ini file - used by Inotify
+const char inifile[] = "/piAquarium/web/scheduler/schedule.ini";
 //**************************************************************************************************
 //											Event tables
 //	col0 = time in seconds since 00:00, col1 = target pwm, col2 = event state (0=pending, 1= taken)
@@ -200,7 +200,7 @@ WORD	LightsOveride;						// if 1 lights settings will be overriden
 float	LightsScale;						// Scales the total light intensity 
 
 BYTE  DataBaseUpdateDiv;					// Data base update divider
-#define		DATABASEUPDATE			10		//	
+#define		DATABASEUPDATE			15		//	
 //***************************************************************************
 //							I/O MACROS
 //***************************************************************************
@@ -256,8 +256,8 @@ IF_TERMINAL_ON()
 	sigaction(SIGTERM, &action, NULL);	
 	
 	//************************************************************	
-//	DbCreate();																	// Create new database//
-//	DbTableCreate();															// I have to handle this situation somehow
+	DbCreate();																	// Create new database//
+	DbTableCreate();															// I have to handle this situation somehow
 	
 	DbConnect();
 	DataBaseUpdateDiv = 0;
@@ -267,8 +267,8 @@ IF_TERMINAL_ON()
 	TermOnFlag = 0;
 #endif	
 //=========== execute WiringPi spi library extension ==============
-	int status = system("/root/wiringPi/gpio/gpio load spi");					// Call wiringPi spi 	
-//			FIX ME -> add some error checking here 
+	int status = system("/root/wiringPi/gpio/gpio load spi");					// Call wiringPi spi 							 
+	  //status = system("/piAquarium/nohup nodejs readservice.js & \r\n");			//	FIX ME -> add some error checking here 
 //=================================================================
 	
 	if( access( inifile, F_OK ) != -1 ) {
@@ -473,9 +473,14 @@ ReadIniFile:
 		
 		//===================== pH =====================================
 		if(ADCa.SigA == 1)														// A valid pH measurement is ready - ADCa.SigA is set by ADCa_Process()
-		{			
+		{	
+#ifdef	NO_FILTERING															// do not apply any filtering on pH data - for debugging purposes
+			flt_tmp = ADCa.chA;											
+			ADCa.chA_fltr= flt_tmp; 
+#else	
 			flt_tmp = median_filter(&pH_MedFltr,ADCa.chA,pH_MEDIAN_LEN);		// Apply Median filter on pH input                	
 			ADCa.chA_fltr = MAVFilter(&pH_MavFltr,flt_tmp,pH_MAV_LEN,1);        // Apply MAV filter on pH input                	          
+#endif
 			//============== Calculate pH value =========================	
 			Rfl = (float)ADCa.chA_fltr;											// Get the filtered version of pH channel	
 			Rfl = (Rfl - Cal_pH1_offs)*Cal_pH1_gain;							// apply offset & gain correction       
@@ -486,10 +491,15 @@ ReadIniFile:
 		}
 		//===================== Temperature =============================
 		if(ADCa.SigB == 1)														// A valid Temperature measurement is ready
-		{
+		{	
+#ifdef	NO_FILTERING															// do not apply any filtering on temperature data - for debugging purposes
+
+			flt_tmp = ADCa.chB;											
+			ADCa.chB_fltr = flt_tmp; 
+#else	
 			flt_tmp = median_filter(&Temp_MedFltr,ADCa.chB,TEMP_MEDIAN_LEN);	// Apply Median filter on Temperature input                	
 			ADCa.chB_fltr = MAVFilter(&Temp_MavFltr,flt_tmp,TEMP_MAV_LEN,1);    // Apply MAV filter on Temperature input                	          
-			
+#endif			
 			//============== Calculate RTD temperature ==================				
 			Rfl = (float)ADCa.chB_fltr;											// Get the filtered version of temperature channel	
 			Rfl = (Rfl - Cal_RTD1_offs)*Cal_RTD1_gain;							// apply offset & gain correction
@@ -498,7 +508,7 @@ ReadIniFile:
 			ADCa.SigB = 0;
 		}		
 		//====================================================
-		Com_Fifo_update();														// Respond to commands from server
+		//Com_Fifo_update();													// Respond to commands from server through named FIFO mechanism
 		//====================================================
 		//delay(100);
 		usleep(100 * 1000);														// Controller loop ~10/sec
@@ -924,7 +934,7 @@ void InitSchedulerTables(void)
     long n;	
 	char var[16];
 	int i;
-	//===================  Initialize time sceduler tables ============	
+	//===================  Initialize time scheduler tables ============	
 	for(i=0;i<MAX_EVENTS;i++)
 	{
 	  sprintf(var,"A%d",i);			
